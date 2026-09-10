@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <style>:root{color-scheme:light}body{margin:0}img{max-width:100%}[hidden]:not([hidden=until-found]){display:none!important}</style>
 </head>
 <body>
-<title>موقع أسّاير</title>
+<title data-ar="موقع أسّاير" data-en="ASSAYER — Industrial Solutions">ASSAYER — Industrial Solutions</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Public+Sans:wght@300;400;500;600;700;800;900&display=swap">
@@ -1682,7 +1682,7 @@ section:not(.hero):not(.mark-sec):not(.rule-sec):not(.scale) h2{
 
 <main id="top">
 <!-- ══════════ ARABIC ══════════ -->
-<div id="ar" lang="ar" dir="rtl">
+<div id="ar" lang="ar" dir="rtl" hidden>
 
   <div class="hero" data-carousel data-dur="8000" data-of="من">
     <div class="hero-stage" aria-hidden="true"></div>
@@ -2070,7 +2070,7 @@ section:not(.hero):not(.mark-sec):not(.rule-sec):not(.scale) h2{
 </div>
 
 <!-- ══════════ ENGLISH ══════════ -->
-<div id="en" lang="en" dir="ltr" hidden>
+<div id="en" lang="en" dir="ltr">
 
   <div class="hero" data-carousel data-dur="8000" data-of="of">
     <div class="hero-stage" aria-hidden="true"></div>
@@ -2888,6 +2888,8 @@ section:not(.hero):not(.mark-sec):not(.rule-sec):not(.scale) h2{
     root.setAttribute('dir', isAr ? 'rtl' : 'ltr');
     document.querySelectorAll('[data-ar]').forEach(function(n){ n.hidden = !isAr; });
     document.querySelectorAll('[data-en]').forEach(function(n){ n.hidden = isAr; });
+    var t = document.querySelector('title');
+    if (t) document.title = t.getAttribute(isAr ? 'data-ar' : 'data-en') || document.title;
     btn.textContent = isAr ? 'EN' : 'ع';
     btn.setAttribute('aria-label', isAr ? 'Switch to English' : 'التبديل إلى العربية');
     fields.forEach(function(f){ f.resize(); });
@@ -3120,7 +3122,7 @@ section:not(.hero):not(.mark-sec):not(.rule-sec):not(.scale) h2{
   window.addEventListener('scroll', syncHdr, { passive: true });
   window.addEventListener('resize', syncHdr);
 
-  setLang('ar');
+  setLang('en');
   syncHdr();
   btn.addEventListener('click', function(){
     setLang(root.getAttribute('lang') === 'ar' ? 'en' : 'ar');

@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <style>:root{color-scheme:light}body{margin:0}img{max-width:100%}[hidden]:not([hidden=until-found]){display:none!important}</style>
 </head>
 <body>
-<title>الطريقة — أسّاير</title>
+<title data-ar="الطريقة — أسّاير" data-en="The method — ASSAYER">The method — ASSAYER</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Public+Sans:wght@300;400;500;600;700;800;900&display=swap">
@@ -285,16 +285,16 @@ main section{view-timeline-name:--secT; view-timeline-axis:block}
   }
 }
 </style>
-<a class="skip" href="#main" data-ar>تخطَّ إلى المحتوى</a>
-<a class="skip" href="#main" data-en hidden>Skip to content</a>
+<a class="skip" href="#main" data-ar hidden>تخطَّ إلى المحتوى</a>
+<a class="skip" href="#main" data-en>Skip to content</a>
 <header class="hdr">
   <div class="wrap">
     <a class="home" href="index.html"><span class="m"><i></i><i></i><b></b></span>ASSAYER</a>
-    <nav class="hnav" data-ar aria-label="الصفحات"><a href="index.html" class="opt">الرئيسة</a><a href="chemicals.html" class="dom">مواد كيميائيّة</a><a href="equipment.html" class="dom">معدّات</a><a href="software.html" class="dom">برمجيّات</a><a href="trade.html" class="dom">وساطة تجاريّة</a><a href="method.html" aria-current="page">الطريقة</a><a href="standards.html">كيف تُقرأ مواصفة</a></nav>
-    <nav class="hnav" data-en hidden aria-label="Pages"><a href="index.html" class="opt">Home</a><a href="chemicals.html" class="dom">Chemicals</a><a href="equipment.html" class="dom">Equipment</a><a href="software.html" class="dom">Software</a><a href="trade.html" class="dom">Trade</a><a href="method.html" aria-current="page">The method</a><a href="standards.html">Reading a specification</a></nav>
+    <nav class="hnav" data-ar hidden aria-label="الصفحات"><a href="index.html" class="opt">الرئيسة</a><a href="chemicals.html" class="dom">مواد كيميائيّة</a><a href="equipment.html" class="dom">معدّات</a><a href="software.html" class="dom">برمجيّات</a><a href="trade.html" class="dom">وساطة تجاريّة</a><a href="method.html" aria-current="page">الطريقة</a><a href="standards.html">كيف تُقرأ مواصفة</a></nav>
+    <nav class="hnav" data-en aria-label="Pages"><a href="index.html" class="opt">Home</a><a href="chemicals.html" class="dom">Chemicals</a><a href="equipment.html" class="dom">Equipment</a><a href="software.html" class="dom">Software</a><a href="trade.html" class="dom">Trade</a><a href="method.html" aria-current="page">The method</a><a href="standards.html">Reading a specification</a></nav>
     <button class="lang" id="lang" type="button" aria-label="Switch to English">EN</button>
   </div>
-</header><main id="main" tabindex="-1"><div lang="ar" dir="rtl" data-ar>
+</header><main id="main" tabindex="-1"><div lang="ar" dir="rtl" data-ar hidden>
 <section class="phead"><div class="wrap">
   <p class="crumb"><a href="index.html">ASSAYER</a> &nbsp;/&nbsp; METHOD</p>
   <p class="eyebrow"><span class="sq"></span>THE METHOD</p>
@@ -396,7 +396,7 @@ main section{view-timeline-name:--secT; view-timeline-axis:block}
   <p>ولا نبيع ما لا نستطيع أن <span class="em">نُثبت مواصفته</span>.</p>
   <p class="a">ASSAYER CO. &mdash; the one rule we do not cross</p>
 </div></section>
-</div><div lang="en" dir="ltr" data-en hidden>
+</div><div lang="en" dir="ltr" data-en>
 <section class="phead"><div class="wrap">
   <p class="crumb"><a href="index.html">ASSAYER</a> &nbsp;/&nbsp; METHOD</p>
   <p class="eyebrow"><span class="sq"></span>THE METHOD</p>
@@ -500,7 +500,7 @@ main section{view-timeline-name:--secT; view-timeline-axis:block}
 </div></section>
 </div></main><footer class="foot">
   <div class="wrap">
-    <ul class="fnav" data-ar>
+    <ul class="fnav" data-ar hidden>
       <li><a href="index.html">الصفحة الرئيسة</a></li>
       <li><a href="chemicals.html">مواد كيميائيّة</a></li>
       <li><a href="equipment.html">معدّات</a></li>
@@ -510,7 +510,7 @@ main section{view-timeline-name:--secT; view-timeline-axis:block}
       <li><a href="standards.html">كيف تُقرأ مواصفة</a></li>
       <li><a href="index.html#rfq">اطلب عرض سعر</a></li>
     </ul>
-    <ul class="fnav" data-en hidden>
+    <ul class="fnav" data-en>
       <li><a href="index.html">Home</a></li>
       <li><a href="chemicals.html">Chemicals</a></li>
       <li><a href="equipment.html">Equipment</a></li>
@@ -534,18 +534,20 @@ main section{view-timeline-name:--secT; view-timeline-axis:block}
     root.setAttribute('dir', isAr ? 'rtl' : 'ltr');
     document.querySelectorAll('[data-ar]').forEach(function(n){ n.hidden = !isAr; });
     document.querySelectorAll('[data-en]').forEach(function(n){ n.hidden = isAr; });
+    var t = document.querySelector('title');
+    if (t) document.title = t.getAttribute(isAr ? 'data-ar' : 'data-en') || document.title;
     btn.textContent = isAr ? 'EN' : '\u0639';
     btn.setAttribute('aria-label', isAr ? 'Switch to English' : '\u0627\u0644\u062a\u0628\u062f\u064a\u0644 \u0625\u0644\u0649 \u0627\u0644\u0639\u0631\u0628\u064a\u0629');
   }
-  /* The two panes are duplicate markup and the ARABIC one is what a cold load
+  /* The two panes are duplicate markup and the ENGLISH one is what a cold load
      shows, exactly as the homepage does it — so with no JS the page is a whole
-     Arabic document rather than an empty shell waiting for a script.
+     English document rather than an empty shell waiting for a script.
 
      The attribute has to be SEEDED. The artifact wrapper emits the root element with no
      lang, so `getAttribute('lang')` was null, `null === 'ar'` was false, and
      the first click set Arabic — i.e. the toggle appeared dead and only worked
      on the second press. Measured in a browser, not inferred. */
-  if (root.getAttribute('lang') !== 'en') set('ar');
+  set('en');
   btn.addEventListener('click', function(){
     set(root.getAttribute('lang') === 'ar' ? 'en' : 'ar');
   });
