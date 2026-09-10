@@ -1,0 +1,555 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>:root{color-scheme:light}body{margin:0}img{max-width:100%}[hidden]:not([hidden=until-found]){display:none!important}</style>
+</head>
+<body>
+<title>الطريقة — أسّاير</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Public+Sans:wght@300;400;500;600;700;800;900&display=swap">
+<style>
+:root{
+  --graphite:#22333B; --brass:#C9A24B; --brass-hi:#DDBE7A;
+  --ivory:#EFF2F1; --paper:#F2F0EC; --ink:#0B0C11;
+  --bg:#F2F0EC; --surface:#FAF9F6; --text:#1A2830; --text-2:#59656B;
+  --accent:#7E611C; --mark:#C9A24B;
+  --rule:rgba(34,51,59,.15); --rule-2:rgba(34,51,59,.07); --edge:rgba(34,51,59,.3);
+  --hdr:rgba(242,240,236,.9);
+  --d-bg:#0B0C11; --d-2:#14161D; --d-3:#1C1F27;
+  --d-text:#EFF2F1; --d-dim:#98A3A9; --d-rule:rgba(239,242,241,.13);
+  --ar:"IBM Plex Sans Arabic","Segoe UI",system-ui,sans-serif;
+  --la:"Public Sans","Segoe UI",system-ui,sans-serif;
+  --pad:clamp(20px,4.4vw,64px); --hdr-h:70px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0B0C11; --surface:#14161D; --text:#EFF2F1; --text-2:#98A3A9;
+    --accent:#C9A24B; --rule:rgba(239,242,241,.15); --rule-2:rgba(239,242,241,.07);
+    --edge:rgba(239,242,241,.3); --hdr:rgba(11,12,17,.9);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0B0C11; --surface:#14161D; --text:#EFF2F1; --text-2:#98A3A9;
+  --accent:#C9A24B; --rule:rgba(239,242,241,.15); --rule-2:rgba(239,242,241,.07);
+  --edge:rgba(239,242,241,.3); --hdr:rgba(11,12,17,.9);
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{
+  margin:0; background:var(--bg); color:var(--text); font-family:var(--ar);
+  font-size:17px; line-height:1.8; font-weight:400; -webkit-font-smoothing:antialiased;
+  font-variant-numeric:normal; overflow-x:clip;
+}
+[lang="en"]{font-family:var(--la); line-height:1.68}
+:focus-visible{outline:2px solid var(--brass); outline-offset:3px}
+img,svg{max-width:100%}
+h1,h2,h3,h4{margin:0; font-weight:600; letter-spacing:-.015em; text-wrap:balance; line-height:1.26}
+[lang="en"] h1,[lang="en"] h2{font-weight:800; letter-spacing:-.035em}
+[lang="en"] h3,[lang="en"] h4{font-weight:700; letter-spacing:-.02em}
+.wrap{max-width:980px; margin:0 auto; padding-inline:var(--pad)}
+.la{font-family:var(--la); direction:ltr; unicode-bidi:isolate; font-variant-numeric:tabular-nums}
+
+/* ── skip link: the shell's own rule, kept ── */
+.skip{
+  position:absolute; inset-inline-start:-9999px; top:0; z-index:200;
+  background:var(--ink); color:var(--ivory); padding:12px 18px; font-size:15px;
+}
+.skip:focus{inset-inline-start:0}
+
+/* ── header ── */
+.hdr{
+  position:sticky; top:0; z-index:60; background:var(--hdr);
+  -webkit-backdrop-filter:saturate(170%) blur(14px);
+  backdrop-filter:saturate(170%) blur(14px); border-bottom:1px solid var(--rule-2);
+}
+.hdr .wrap{display:flex; align-items:center; gap:14px; height:var(--hdr-h); max-width:1340px}
+.home{
+  display:flex; align-items:center; gap:11px; text-decoration:none; color:var(--text);
+  font-family:var(--la); font-size:12px; font-weight:800; letter-spacing:.22em;
+  text-transform:uppercase; direction:ltr; flex:0 0 auto;
+}
+.home .m{position:relative; width:22px; height:22px; flex:0 0 auto}
+.home .m i{position:absolute; width:14px; height:14px; border:2px solid var(--brass)}
+.home .m i:nth-of-type(1){top:0; inset-inline-start:0; border-color:var(--edge)}
+.home .m i:nth-of-type(2){bottom:0; inset-inline-end:0}
+.home .m b{position:absolute; inset-inline-start:8px; top:8px; width:6px; height:6px; background:var(--brass)}
+.hnav{display:flex; gap:clamp(12px,2vw,26px); margin-inline-start:auto; align-items:center; min-width:0}
+.hnav a{
+  color:var(--text-2); text-decoration:none; font-size:14.5px; font-weight:500;
+  white-space:nowrap; padding-block:8px; border-bottom:1px solid transparent;
+}
+.hnav a[aria-current]{color:var(--text); border-bottom-color:var(--mark)}
+.hnav a:hover{color:var(--text); border-bottom-color:var(--mark)}
+/* the bar sheds links in the order a reader here needs them LEAST: Home first
+   (the mark beside it already goes there), then the four fields. */
+@media(max-width:1180px){.hnav a.dom{display:none}}
+@media(max-width:720px){.hnav a.opt{display:none}}
+.lang{
+  font-family:var(--la); font-size:12px; font-weight:700; letter-spacing:.1em;
+  background:none; border:1px solid var(--rule); color:var(--text);
+  padding:9px 13px; cursor:pointer; min-height:40px; min-width:46px; line-height:1;
+}
+:root[lang="en"] .lang{font-family:var(--ar); font-size:17px; letter-spacing:0}
+.lang:hover{border-color:var(--edge)}
+
+/* ── page head ── */
+.phead{background:var(--ink); color:var(--d-text); padding-block:clamp(52px,8vw,104px) clamp(40px,6vw,74px)}
+.eyebrow{
+  display:flex; align-items:center; gap:11px; margin:0 0 24px;
+  font-family:var(--la); font-size:11px; font-weight:700; letter-spacing:.26em;
+  text-transform:uppercase; color:var(--brass); direction:ltr;
+}
+[lang="ar"] .eyebrow{flex-direction:row-reverse; justify-content:flex-start}
+.sq{width:9px; height:9px; background:currentColor; flex:0 0 auto}
+/* The same measure rule the homepage now keeps in three places: `--hch` is the
+   longest LINE in characters and `--hk` is how much column a character needs,
+   per script — the Latin face runs about 0.55em against the Arabic 0.42, so one
+   constant for both leaves one of them wrapping past its own <br>. `max-width`
+   is gone: it was a SECOND, conflicting measure, and on the homepage it was the
+   thing actually forcing the extra wraps. */
+.phead .wrap{container-type:inline-size}
+.phead h1{
+  --hch:22; --hk:190;
+  font-size:clamp(30px, calc(var(--hk) * 1cqi / var(--hch)), 60px);
+  line-height:1.2; color:var(--d-text);
+}
+[lang="en"] .phead h1{--hk:158}
+.phead .lede{margin:24px 0 0; color:var(--d-dim); max-width:62ch; font-size:18.5px}
+.crumb{
+  margin:0 0 20px; font-family:var(--la); font-size:10.5px; font-weight:700;
+  letter-spacing:.2em; text-transform:uppercase; color:rgba(152,163,169,.75); direction:ltr;
+}
+.crumb a{color:inherit; text-decoration:none; border-bottom:1px solid transparent}
+.crumb a:hover{color:var(--brass); border-bottom-color:var(--brass)}
+
+/* ── contents ── */
+.toc{
+  margin:clamp(30px,4vw,44px) 0 0; padding-top:24px;
+  border-top:1px solid var(--d-rule); display:grid; gap:0;
+}
+@media(min-width:760px){.toc{grid-template-columns:repeat(2,minmax(0,1fr)); column-gap:clamp(24px,4vw,56px)}}
+.toc a{
+  display:grid; grid-template-columns:auto 1fr; gap:0 16px; align-items:baseline;
+  padding-block:12px; border-bottom:1px solid var(--d-rule);
+  text-decoration:none; color:var(--d-dim); font-size:16px;
+}
+.toc a:hover{color:var(--d-text)}
+.toc .n{font-family:var(--la); font-size:11.5px; font-weight:700; color:var(--brass); direction:ltr}
+
+/* ── body ── */
+main section{padding-block:clamp(44px,6vw,80px); border-bottom:1px solid var(--rule-2)}
+main section:last-of-type{border-bottom:0}
+.sh{display:flex; align-items:baseline; gap:16px; margin:0 0 6px}
+.sh .n{font-family:var(--la); font-size:12px; font-weight:800; letter-spacing:.16em; color:var(--accent); direction:ltr; flex:0 0 auto}
+.sh h2{font-size:clamp(23px,3.6vw,38px)}
+main p{margin:16px 0 0; max-width:66ch}
+main p.lede{color:var(--text-2); font-size:18px; margin-top:14px}
+main strong{font-weight:600}
+main em{font-style:normal; color:var(--accent); font-weight:600}
+
+/* ── the numbered anatomy list ── */
+.an{list-style:none; margin:clamp(26px,3.4vw,38px) 0 0; padding:0}
+.an > li{
+  display:grid; grid-template-columns:auto minmax(0,1fr); gap:0 clamp(16px,2.6vw,34px);
+  padding-block:clamp(20px,2.8vw,30px); border-top:1px solid var(--rule);
+}
+.an > li:last-child{border-bottom:1px solid var(--rule)}
+.an .k{
+  font-family:var(--la); font-size:clamp(24px,3.4vw,40px); font-weight:300; line-height:1;
+  color:var(--rule); direction:ltr; letter-spacing:-.02em; font-variant-numeric:tabular-nums;
+}
+.an h3{font-size:clamp(18px,2.4vw,25px)}
+.an p{margin:11px 0 0; color:var(--text-2); font-size:16.5px}
+
+/* ── a fact table ── */
+.tw{overflow-x:auto; margin-top:clamp(24px,3.2vw,36px); border:1px solid var(--rule)}
+table{width:100%; border-collapse:collapse; font-size:15.5px; min-width:600px; background:var(--surface)}
+th{
+  font-family:var(--ar); font-size:12px; font-weight:700; color:var(--text-2);
+  text-align:start; padding:13px 15px; border-bottom:1px solid var(--rule); white-space:nowrap;
+}
+[lang="en"] th{font-family:var(--la)}
+td{padding:14px 15px; border-bottom:1px solid var(--rule-2); vertical-align:top; line-height:1.66}
+tr:last-child td{border-bottom:0}
+td.c{font-weight:600; white-space:nowrap}
+td .la{font-weight:600; color:var(--accent)}
+
+/* ── a callout ── */
+.note{
+  margin-top:clamp(24px,3vw,34px); padding:clamp(18px,2.2vw,24px);
+  background:var(--surface); border:1px solid var(--rule); border-inline-start:3px solid var(--brass);
+}
+.note b{
+  display:block; font-family:var(--la); font-size:10.5px; font-weight:700;
+  letter-spacing:.18em; text-transform:uppercase; color:var(--accent);
+  margin-bottom:9px; direction:ltr;
+}
+[lang="ar"] .note b{text-align:right}
+.note p{margin:0; max-width:64ch}
+.note p + p{margin-top:11px}
+
+/* ── a slot that is deliberately empty, same language as the homepage ── */
+.slot{
+  border:1.5px dashed var(--edge); padding:clamp(17px,2.1vw,24px);
+  display:flex; flex-direction:column; gap:8px; margin-top:16px;
+}
+.slot .cn{font-family:var(--la); font-size:10.5px; font-weight:700; letter-spacing:.2em; color:var(--accent); direction:ltr}
+[lang="ar"] .slot .cn{text-align:right}
+.slot strong{font-size:17px; font-weight:600}
+.slot p{margin:0; color:var(--text-2); font-size:15px; max-width:64ch}
+.slot .rsv{
+  margin-top:6px; padding-top:12px; border-top:1px dashed var(--rule);
+  font-family:var(--la); font-size:9.5px; font-weight:700; letter-spacing:.18em;
+  text-transform:uppercase; color:var(--text-2); direction:ltr;
+}
+[lang="ar"] .slot .rsv{text-align:right}
+
+/* ── worked example, in the site's own conformity vocabulary ── */
+.ex{border:1px solid var(--rule); background:var(--surface); margin-top:clamp(24px,3vw,34px)}
+.ex-h{
+  padding:15px 18px; border-bottom:1px solid var(--rule);
+  display:flex; flex-wrap:wrap; gap:6px 18px; justify-content:space-between;
+  font-family:var(--la); font-size:10px; font-weight:700; letter-spacing:.19em;
+  text-transform:uppercase; color:var(--text-2); direction:ltr;
+}
+.ex-h b{color:var(--accent)}
+.ex table{border:0; min-width:520px}
+.ex .num{font-family:var(--la); direction:ltr; font-variant-numeric:tabular-nums; font-weight:600}
+.ex .lbl{color:var(--text-2); font-size:14.5px}
+.ok{display:inline-block; width:9px; height:9px; background:var(--brass)}
+.bad{
+  display:inline-block; font-family:var(--la); font-size:9.5px; font-weight:700;
+  letter-spacing:.11em; text-transform:uppercase; color:#0B0C11;
+  background:var(--brass); padding:4px 8px; white-space:nowrap;
+}
+.ex-v{
+  padding:16px 18px; border-top:1px solid rgba(201,162,75,.4); background:rgba(201,162,75,.07);
+  display:flex; flex-wrap:wrap; gap:8px 20px; align-items:baseline; justify-content:space-between;
+}
+.ex-v .w{margin:0; font-size:17px; font-weight:600; color:var(--accent)}
+.ex-v .m{margin:0; font-family:var(--la); font-size:10px; font-weight:700; letter-spacing:.17em; text-transform:uppercase; color:var(--text-2); direction:ltr}
+
+/* ── the rule band, and the foot ── */
+.band{background:var(--ink); color:var(--d-text); padding-block:clamp(48px,7vw,84px)}
+.band p{
+  margin:0; font-size:clamp(22px,3.8vw,42px); line-height:1.34; font-weight:600;
+  max-width:22ch; color:var(--d-text); letter-spacing:-.02em;
+}
+[lang="en"] .band p{font-weight:800; letter-spacing:-.035em}
+.band .em{color:var(--brass)}
+.band .a{
+  margin:clamp(24px,3vw,38px) 0 0; padding-top:20px; border-top:1px solid var(--d-rule);
+  font-family:var(--la); font-size:10.5px; font-weight:700; letter-spacing:.22em;
+  text-transform:uppercase; color:var(--d-dim); direction:ltr;
+}
+.foot{background:var(--d-2); color:var(--d-text); padding-block:clamp(40px,5vw,64px) 34px}
+.foot .wrap{max-width:1340px}
+.fnav{display:flex; flex-wrap:wrap; gap:12px clamp(20px,3vw,40px); margin:0 0 26px; padding:0; list-style:none}
+.fnav a{color:var(--d-dim); text-decoration:none; font-size:15.5px; border-bottom:1px solid transparent}
+.fnav a:hover{color:var(--brass); border-bottom-color:var(--brass)}
+.legal{
+  padding-top:22px; border-top:1px solid var(--d-rule);
+  display:flex; flex-wrap:wrap; gap:9px 26px; align-items:center;
+  font-family:var(--la); font-size:10.5px; font-weight:700; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--d-dim); direction:ltr;
+}
+.tbd{
+  color:var(--d-dim); font-family:var(--la); font-size:10px; font-weight:700;
+  letter-spacing:.16em; direction:ltr; display:inline-block;
+  border:1px dashed rgba(239,242,241,.22); padding:1px 7px; line-height:1.7;
+}
+
+/* ── motion: same contract as the homepage ── */
+main section h2, .an > li{--s:0}
+.an > li:nth-child(1){--s:0} .an > li:nth-child(2){--s:1} .an > li:nth-child(3){--s:2}
+.an > li:nth-child(4){--s:3} .an > li:nth-child(5){--s:4} .an > li:nth-child(6){--s:5}
+main section{view-timeline-name:--secT; view-timeline-axis:block}
+@media (prefers-reduced-motion: no-preference){
+  @supports (animation-timeline: view()){
+    main section h2{
+      animation:headIn linear both; animation-timeline:--secT;
+      animation-range:entry 8% entry 66%;
+    }
+    @keyframes headIn{
+      from{clip-path:inset(0 0 100% 0); opacity:.25}
+      to  {clip-path:inset(-26% -26% -26% -26%); opacity:1}
+    }
+    .an > li{
+      animation:litIn linear both; animation-timeline:--secT;
+      animation-range:entry calc(22% + var(--s,0) * 7%) cover calc(20% + var(--s,0) * 7%);
+    }
+    @keyframes litIn{from{opacity:.34} to{opacity:1}}
+  }
+}
+</style>
+<a class="skip" href="#main" data-ar>تخطَّ إلى المحتوى</a>
+<a class="skip" href="#main" data-en hidden>Skip to content</a>
+<header class="hdr">
+  <div class="wrap">
+    <a class="home" href="index.html"><span class="m"><i></i><i></i><b></b></span>ASSAYER</a>
+    <nav class="hnav" data-ar aria-label="الصفحات"><a href="index.html" class="opt">الرئيسة</a><a href="chemicals.html" class="dom">مواد كيميائيّة</a><a href="equipment.html" class="dom">معدّات</a><a href="software.html" class="dom">برمجيّات</a><a href="trade.html" class="dom">وساطة تجاريّة</a><a href="method.html" aria-current="page">الطريقة</a><a href="standards.html">كيف تُقرأ مواصفة</a></nav>
+    <nav class="hnav" data-en hidden aria-label="Pages"><a href="index.html" class="opt">Home</a><a href="chemicals.html" class="dom">Chemicals</a><a href="equipment.html" class="dom">Equipment</a><a href="software.html" class="dom">Software</a><a href="trade.html" class="dom">Trade</a><a href="method.html" aria-current="page">The method</a><a href="standards.html">Reading a specification</a></nav>
+    <button class="lang" id="lang" type="button" aria-label="Switch to English">EN</button>
+  </div>
+</header><main id="main" tabindex="-1"><div lang="ar" dir="rtl" data-ar>
+<section class="phead"><div class="wrap">
+  <p class="crumb"><a href="index.html">ASSAYER</a> &nbsp;/&nbsp; METHOD</p>
+  <p class="eyebrow"><span class="sq"></span>THE METHOD</p>
+  <h1 style="--hch:21">الطريقة: من رقمٍ مكتوب<br>إلى دفعةٍ مُثبتة</h1>
+  <p class="lede">الصفحة الرئيسة تقول ثلاث خطوات. هذه هي الخطوات نفسها بتفاصيلها — ما الذي يُكتب قبل أيّ سعر، ومقابل ماذا يُقاس، وماذا يحدث حين لا يطابق.</p>
+  <nav class="toc" aria-label="محتويات الصفحة">
+    <a href="#spec"><span class="n">01</span><span>المواصفة: ما يُكتب قبل السعر</span></a>
+    <a href="#ref"><span class="n">02</span><span>المرجع: مقابل ماذا يُقاس</span></a>
+    <a href="#judge"><span class="n">03</span><span>الحكم: يطابق أو لا يطابق</span></a>
+    <a href="#fail"><span class="n">04</span><span>حين لا يطابق</span></a>
+    <a href="#trail"><span class="n">05</span><span>الأثر: ما يبقى مكتوبًا</span></a>
+    <a href="#open"><span class="n">06</span><span>ما لم يُقرَّر بعد</span></a>
+  </nav>
+</div></section>
+
+<section id="spec"><div class="wrap">
+  <div class="sh"><span class="n">01</span><h2>المواصفة: ما يُكتب قبل السعر</h2></div>
+  <p class="lede">السعر بلا مواصفة رقمٌ لا يمكن مقارنته بشيء. فالمواصفة تُكتب أوّلًا، ويُبنى عليها السعر — لا العكس.</p>
+  <p>وأقلّ ما تحمله المواصفة هنا ستّة حقول. هذه ليست قائمة أمنيات: هي الحقول نفسها التي يسألها نموذج طلب السعر على الصفحة الرئيسة، وما نقص منها يُسأل عنه سؤالًا محدَّدًا بدل أن يُقدَّر.</p>
+  <ol class="an">
+    <li><span class="k">01</span><div><h3>المادّة أو الجهاز</h3><p>بالاسم الكيميائيّ أو الطراز، لا بالاسم التجاريّ وحده. الاسم التجاريّ يتغيّر بين مورّدَين ويصف الشيء نفسه، أو يصف شيئين مختلفين تحت اسمٍ واحد.</p></div></li>
+    <li><span class="k">02</span><div><h3>الدرجة</h3><p><span class="la">Reagent</span> · <span class="la">Technical</span> · <span class="la">USP</span> — الدرجة تحدّد النقاء المقبول، وهي وحدها قد تضاعف السعر أو تُسقط الصلاحيّة للاستعمال.</p></div></li>
+    <li><span class="k">03</span><div><h3>المعيار المرجعيّ</h3><p>الرقم الذي سيُقاس عليه. بلا معيارٍ مسمّى تصير كلمة «مطابق» رأيًا لا نتيجة — وهذا موضوع <a href="standards.html">صفحة قراءة المواصفة</a>.</p></div></li>
+    <li><span class="k">04</span><div><h3>الكمّية والوحدة</h3><p>الوحدة جزءٌ من الرقم لا زينةٌ بعده. «500» ليست كمّية.</p></div></li>
+    <li><span class="k">05</span><div><h3>موعد التسليم</h3><p>تاريخًا أو مدّة. الموعد يغيّر المصدر، والمصدر يغيّر ما يمكن إثباته.</p></div></li>
+    <li><span class="k">06</span><div><h3>مرجع الطلب عندك</h3><p>رقمك أنت، ليُطابَق سجلّانا بسجلّك عند أيّ مراجعة لاحقة.</p></div></li>
+  </ol>
+  <div class="note"><b>لماذا هذا أوّلًا</b>
+    <p>لأنّ كلّ خلافٍ لاحق بين مورّدٍ ومشترٍ يعود إلى سطرٍ لم يُكتب. الحقول الستّة تُكتب مرّة، ثمّ تصير هي نفسها ما يُقاس عليه عند الاستلام.</p>
+  </div>
+</div></section>
+
+<section id="ref"><div class="wrap">
+  <div class="sh"><span class="n">02</span><h2>المرجع: مقابل ماذا يُقاس</h2></div>
+  <p class="lede">«مطابق» جوابٌ لا معنى له حتّى يُقال: مطابقٌ لماذا. والمرجع عندنا واحدٌ من ثلاثة، ولكلٍّ منها موضعه.</p>
+  <ol class="an">
+    <li><span class="k">أ</span><div><h3>معيارٌ معتمد</h3><p>وثيقةٌ منشورة تحمل رقمًا وجهةً وسنة إصدار، وتنصّ على الحدّ وعلى طريقة قياسه معًا. هذا أقوى المراجع الثلاثة، لأنّ طرفًا ثالثًا كتبه وكلا الطرفين يستطيع الرجوع إليه.</p></div></li>
+    <li><span class="k">ب</span><div><h3>شهادةٌ للدفعة</h3><p>ما يقوله المُصنّع عن هذه الدفعة بعينها: رقمها، وتاريخ إنتاجها، والقيم المقيسة. تُستعمل حين لا يوجد معيار منشور للخاصّيّة المطلوبة — وتبقى إفادةَ طرفٍ واحد، فتُقاس عند الاستلام لا تُصدَّق وحدها.</p></div></li>
+    <li><span class="k">ج</span><div><h3>دفعةٌ سابقة موثّقة</h3><p>حين يكون المطلوب «مثل المرّة الماضية». وهذا مرجعٌ حقيقيّ بشرطٍ واحد: أن تكون تلك الدفعة قد قيست ودُوّنت قيمها. دفعةٌ سابقة بلا سجلّ ليست مرجعًا، بل ذاكرة.</p></div></li>
+  </ol>
+  <div class="note"><b>ترتيب الأفضليّة</b>
+    <p>معيارٌ معتمد، ثمّ دفعةٌ سابقة موثّقة، ثمّ شهادة المُصنّع. والسبب أنّ الترتيب هو ترتيب <em>من كتب المرجع</em>: طرفٌ ثالث، ثمّ نحن، ثمّ البائع.</p>
+  </div>
+</div></section>
+
+<section id="judge"><div class="wrap">
+  <div class="sh"><span class="n">03</span><h2>الحكم: يطابق أو لا يطابق</h2></div>
+  <p class="lede">القياس يُوضع بجانب الحدّ، بندًا ببند. لا تقدير، ولا «قريب من المطلوب»: البند إمّا داخل النطاق أو خارجه.</p>
+  <p>وهذه دفعةٌ حقيقيّة الشكل، من النوع الذي يُعرض على الصفحة الرئيسة — أربعة بنودٍ داخل النطاق وبندٌ واحد خارجه:</p>
+  <div class="ex">
+    <div class="ex-h"><span>CONFORMITY CHECK <b>· ASTM C150</b></span><span>REF 26-C-0148</span></div>
+    <div style="overflow-x:auto"><table>
+      <thead><tr><th>البند</th><th>المواصفة</th><th>المقيس</th><th></th></tr></thead>
+      <tbody>
+        <tr><td class="lbl">النقاء</td><td class="num" style="color:var(--text-2);font-weight:400">&ge; 99.00 %</td><td class="num">99.42 %</td><td style="text-align:end"><span class="ok"></span></td></tr>
+        <tr><td class="lbl">الرطوبة</td><td class="num" style="color:var(--text-2);font-weight:400">&le; 0.50 %</td><td class="num">0.31 %</td><td style="text-align:end"><span class="ok"></span></td></tr>
+        <tr><td class="lbl">الكثافة النوعيّة</td><td class="num" style="color:var(--text-2);font-weight:400">2.60 &ndash; 2.70</td><td class="num">2.667</td><td style="text-align:end"><span class="ok"></span></td></tr>
+        <tr><td class="lbl">شهادة الدفعة</td><td class="num" style="color:var(--text-2);font-weight:400">مطلوبة</td><td class="num">مرفقة</td><td style="text-align:end"><span class="ok"></span></td></tr>
+        <tr><td class="lbl">الكلوريد</td><td class="num" style="color:var(--text-2);font-weight:400">&le; 0.10 %</td><td class="num">0.14 %</td><td style="text-align:end"><span class="bad">خارج النطاق</span></td></tr>
+      </tbody>
+    </table></div>
+    <div class="ex-v"><p class="w">خارج النطاق — الدفعة لم تُسلَّم</p><p class="m">Held · supplier notified</p></div>
+  </div>
+  <div class="note"><b>بندٌ واحد يكفي</b>
+    <p>أربعةٌ من خمسة داخل النطاق، والدفعة لم تُسلَّم. لأنّ المواصفة ليست معدّلًا يُحسب: كلّ بندٍ فيها شرطٌ قائم بذاته، ومن يقبل «أربعة من خمسة» مرّةً يقبلها كلّ مرّة.</p>
+    <p>والفارق هنا 0.04 % — وهو بالضبط النوع الذي يمرّ حين لا يُقاس أحد.</p>
+  </div>
+</div></section>
+
+<section id="fail"><div class="wrap">
+  <div class="sh"><span class="n">04</span><h2>حين لا يطابق</h2></div>
+  <p class="lede">هذه هي الخطوة التي تفرّق بين مورّدٍ يفحص ومورّدٍ يقول إنّه يفحص. البضاعة موجودة، والفاتورة جاهزة، والحكم يمنع التسليم.</p>
+  <ol class="an">
+    <li><span class="k">01</span><div><h3>تُحجَز، ولا تُسلَّم</h3><p>الدفعة الخارجة عن النطاق لا تدخل مخزونك. هذه هي القاعدة المعلنة على الصفحة الرئيسة، وليست استثناءً يُطلب.</p></div></li>
+    <li><span class="k">02</span><div><h3>يُبلَّغ المورّد بالرقم</h3><p>بالبند، وبالحدّ، وبالمقيس — لا برسالة «الجودة غير مقبولة». المُصنّع لا يستطيع تصحيح ما لم يُسمَّ له.</p></div></li>
+    <li><span class="k">03</span><div><h3>ويصلك التقرير نفسه</h3><p>التقرير يُرفق مع كلّ دفعة، طابقت أو لم تطابق. الحكم هو ما تشتريه منّا — والحكم بالرفض هو أصدق صورةٍ له.</p></div></li>
+  </ol>
+</div></section>
+
+<section id="trail"><div class="wrap">
+  <div class="sh"><span class="n">05</span><h2>الأثر: ما يبقى مكتوبًا</h2></div>
+  <p class="lede">النتيجة التي لا يمكن الرجوع إلى مصدرها بعد سنتين ليست نتيجة، بل ذكرى رقم.</p>
+  <p>فكلّ قياسٍ يُسجَّل لحظة حدوثه ومرتبطًا بمصدره: أيّ دفعة، وأيّ جهاز، وشهادة معايرة ذلك الجهاز السارية يومها. وكلّ تعديلٍ على سجلٍّ يُضاف فوقه ولا يمحوه — فالسجلّ يكبر ولا يُصحَّح في الخفاء.</p>
+  <div class="note"><b>لماذا الجهاز جزءٌ من الأثر</b>
+    <p>قراءةٌ صحيحة من جهازٍ انتهت معايرته ليست قراءة. ولهذا يُسجَّل الجهاز مع النتيجة: من يراجع بعد سنتين يسأل عن الاثنين معًا، لا عن الرقم وحده.</p>
+  </div>
+</div></section>
+
+<section id="open"><div class="wrap">
+  <div class="sh"><span class="n">06</span><h2>ما لم يُقرَّر بعد</h2></div>
+  <p class="lede">كلّ ما فوق مستخرَجٌ ممّا تعلنه أسّاير عن نفسها. وهذه أربعة تفاصيل لا يقولها الموقع، فلن تُخترع هنا — وكلٌّ منها خانةٌ محجوزة بمقاسها حتّى تُملأ.</p>
+  <div class="slot"><span class="cn">01</span><strong>مدّة حفظ السجلّ</strong><p>كم سنة يبقى أثر الدفعة قابلًا للاسترجاع، وماذا يحدث بعدها.</p><span class="rsv">Slot reserved</span></div>
+  <div class="slot"><span class="cn">02</span><strong>من يوقّع الحكم</strong><p>الصفة التي تعتمد نتيجة المطابقة، وهل تختلف بين فئات التوريد.</p><span class="rsv">Slot reserved</span></div>
+  <div class="slot"><span class="cn">03</span><strong>مهلة الردّ على الطلب</strong><p>الصفحة الرئيسة تقول «يوم عمل واحد» — يحتاج تثبيتًا وشرطًا لما يخرج عنه.</p><span class="rsv">Slot reserved</span></div>
+  <div class="slot"><span class="cn">04</span><strong>مصير الدفعة المحجوزة</strong><p>تُعاد إلى المورّد، أم تُعالَج، أم تُتلَف — ومن يتحمّل كلفة ذلك.</p><span class="rsv">Slot reserved</span></div>
+</div></section>
+
+<section class="band"><div class="wrap">
+  <p>ولا نبيع ما لا نستطيع أن <span class="em">نُثبت مواصفته</span>.</p>
+  <p class="a">ASSAYER CO. &mdash; the one rule we do not cross</p>
+</div></section>
+</div><div lang="en" dir="ltr" data-en hidden>
+<section class="phead"><div class="wrap">
+  <p class="crumb"><a href="index.html">ASSAYER</a> &nbsp;/&nbsp; METHOD</p>
+  <p class="eyebrow"><span class="sq"></span>THE METHOD</p>
+  <h1 style="--hch:34">The method: from a written figure<br>to a proven batch</h1>
+  <p class="lede">The homepage says three steps. These are the same three, in full — what is written before any price, what it is measured against, and what happens when it does not conform.</p>
+  <nav class="toc" aria-label="Contents">
+    <a href="#spec"><span class="n">01</span><span>The specification: what is written before the price</span></a>
+    <a href="#ref"><span class="n">02</span><span>The reference: measured against what</span></a>
+    <a href="#judge"><span class="n">03</span><span>The judgement: conforms or does not</span></a>
+    <a href="#fail"><span class="n">04</span><span>When it does not conform</span></a>
+    <a href="#trail"><span class="n">05</span><span>The trail: what stays written</span></a>
+    <a href="#open"><span class="n">06</span><span>What is not decided yet</span></a>
+  </nav>
+</div></section>
+
+<section id="spec"><div class="wrap">
+  <div class="sh"><span class="n">01</span><h2>The specification: what is written before the price</h2></div>
+  <p class="lede">A price without a specification is a number you cannot compare to anything. So the specification is written first and the price is built on it — not the other way round.</p>
+  <p>The minimum here is six fields. This is not a wish list: they are the same fields the request form on the homepage asks for, and anything missing is raised as one specific question rather than estimated.</p>
+  <ol class="an">
+    <li><span class="k">01</span><div><h3>The material or instrument</h3><p>By chemical name or model, not by trade name alone. A trade name changes between two suppliers for the same thing — or covers two different things under one name.</p></div></li>
+    <li><span class="k">02</span><div><h3>The grade</h3><p>Reagent · Technical · USP. The grade sets the acceptable purity, and on its own it can double the price or make the material unfit for the use.</p></div></li>
+    <li><span class="k">03</span><div><h3>The reference standard</h3><p>The figure it will be measured against. With no standard named, "conforming" is an opinion rather than a result — which is the subject of <a href="standards.html">reading a specification</a>.</p></div></li>
+    <li><span class="k">04</span><div><h3>Quantity and unit</h3><p>The unit is part of the figure, not decoration after it. "500" is not a quantity.</p></div></li>
+    <li><span class="k">05</span><div><h3>The delivery date</h3><p>A date or a duration. The date changes the source, and the source changes what can be proven.</p></div></li>
+    <li><span class="k">06</span><div><h3>Your own reference</h3><p>Your number, so our record and yours can be matched at any later review.</p></div></li>
+  </ol>
+  <div class="note"><b>Why this comes first</b>
+    <p>Because every later dispute between a supplier and a buyer goes back to a line that was never written. The six fields are written once, and then become the very thing measured at receipt.</p>
+  </div>
+</div></section>
+
+<section id="ref"><div class="wrap">
+  <div class="sh"><span class="n">02</span><h2>The reference: measured against what</h2></div>
+  <p class="lede">"Conforming" means nothing until it says: conforming to what. A reference here is one of three, and each has its place.</p>
+  <ol class="an">
+    <li><span class="k">A</span><div><h3>An approved standard</h3><p>A published document carrying a number, an issuing body and a year, which states the limit and the method of measuring it together. The strongest of the three, because a third party wrote it and both sides can go back to it.</p></div></li>
+    <li><span class="k">B</span><div><h3>A certificate for the batch</h3><p>What the manufacturer says about this batch: its number, its production date, the measured values. Used where no published standard covers the property — and it remains one party's statement, so it is measured at receipt rather than believed on its own.</p></div></li>
+    <li><span class="k">C</span><div><h3>A documented previous batch</h3><p>For when the requirement is "the same as last time". A real reference, on one condition: that the earlier batch was measured and its values recorded. A previous batch with no record is not a reference — it is a memory.</p></div></li>
+  </ol>
+  <div class="note"><b>The order of preference</b>
+    <p>An approved standard, then a documented previous batch, then the manufacturer's certificate. The order is the order of <em>who wrote the reference</em>: a third party, then us, then the seller.</p>
+  </div>
+</div></section>
+
+<section id="judge"><div class="wrap">
+  <div class="sh"><span class="n">03</span><h2>The judgement: conforms or does not</h2></div>
+  <p class="lede">The measurement is set beside the limit, item by item. No estimation, no "close enough": an item is either inside the range or outside it.</p>
+  <p>Here is a batch of the shape shown on the homepage — four items inside the range and one outside:</p>
+  <div class="ex">
+    <div class="ex-h"><span>CONFORMITY CHECK <b>· ASTM C150</b></span><span>REF 26-C-0148</span></div>
+    <div style="overflow-x:auto"><table>
+      <thead><tr><th>Item</th><th>Specification</th><th>Measured</th><th></th></tr></thead>
+      <tbody>
+        <tr><td class="lbl">Purity</td><td class="num" style="color:var(--text-2);font-weight:400">&ge; 99.00 %</td><td class="num">99.42 %</td><td style="text-align:end"><span class="ok"></span></td></tr>
+        <tr><td class="lbl">Moisture</td><td class="num" style="color:var(--text-2);font-weight:400">&le; 0.50 %</td><td class="num">0.31 %</td><td style="text-align:end"><span class="ok"></span></td></tr>
+        <tr><td class="lbl">Specific gravity</td><td class="num" style="color:var(--text-2);font-weight:400">2.60 &ndash; 2.70</td><td class="num">2.667</td><td style="text-align:end"><span class="ok"></span></td></tr>
+        <tr><td class="lbl">Batch certificate</td><td class="num" style="color:var(--text-2);font-weight:400">Required</td><td class="num">Attached</td><td style="text-align:end"><span class="ok"></span></td></tr>
+        <tr><td class="lbl">Chloride</td><td class="num" style="color:var(--text-2);font-weight:400">&le; 0.10 %</td><td class="num">0.14 %</td><td style="text-align:end"><span class="bad">Out of range</span></td></tr>
+      </tbody>
+    </table></div>
+    <div class="ex-v"><p class="w">Out of range — the batch was not delivered</p><p class="m">Held · supplier notified</p></div>
+  </div>
+  <div class="note"><b>One item is enough</b>
+    <p>Four of five inside the range, and the batch was not delivered. A specification is not an average to be computed: every item in it is a condition in its own right, and anyone who accepts "four out of five" once accepts it every time.</p>
+    <p>The margin here is 0.04 % — exactly the kind that passes when nobody measures.</p>
+  </div>
+</div></section>
+
+<section id="fail"><div class="wrap">
+  <div class="sh"><span class="n">04</span><h2>When it does not conform</h2></div>
+  <p class="lede">This is the step that separates a supplier who inspects from a supplier who says he inspects. The goods are there, the invoice is ready, and the judgement stops the delivery.</p>
+  <ol class="an">
+    <li><span class="k">01</span><div><h3>It is held, not delivered</h3><p>A batch outside the range does not enter your store. That is the rule stated on the homepage, not an exception you have to ask for.</p></div></li>
+    <li><span class="k">02</span><div><h3>The supplier is told the figure</h3><p>The item, the limit and the measurement — not a message saying "quality not accepted". A manufacturer cannot correct what is not named to him.</p></div></li>
+    <li><span class="k">03</span><div><h3>And you get the same report</h3><p>The report goes with every batch, conforming or not. The judgement is what you buy from us — and a judgement to refuse is its most honest form.</p></div></li>
+  </ol>
+</div></section>
+
+<section id="trail"><div class="wrap">
+  <div class="sh"><span class="n">05</span><h2>The trail: what stays written</h2></div>
+  <p class="lede">A result you cannot trace back to its source two years later is not a result. It is the memory of a number.</p>
+  <p>So every measurement is recorded as it happens and tied to its source: which batch, which instrument, and that instrument's calibration certificate valid on the day. Any change to a record is written on top of it and never erases it — the record grows, and is never quietly corrected.</p>
+  <div class="note"><b>Why the instrument is part of the trail</b>
+    <p>A correct reading from an instrument whose calibration has lapsed is not a reading. That is why the instrument is recorded with the result: whoever reviews it two years later asks about both, not about the figure alone.</p>
+  </div>
+</div></section>
+
+<section id="open"><div class="wrap">
+  <div class="sh"><span class="n">06</span><h2>What is not decided yet</h2></div>
+  <p class="lede">Everything above is drawn from what ASSAYER already states about itself. These four details are not stated anywhere, so they are not invented here — each is a slot held at its own size until it is filled.</p>
+  <div class="slot"><span class="cn">01</span><strong>Record retention</strong><p>How many years a batch's trail stays retrievable, and what happens after that.</p><span class="rsv">Slot reserved</span></div>
+  <div class="slot"><span class="cn">02</span><strong>Who signs the judgement</strong><p>The role that approves a conformity result, and whether it differs by supply category.</p><span class="rsv">Slot reserved</span></div>
+  <div class="slot"><span class="cn">03</span><strong>Response time</strong><p>The homepage says "one working day" — it needs to be fixed, with the condition for anything outside it.</p><span class="rsv">Slot reserved</span></div>
+  <div class="slot"><span class="cn">04</span><strong>What becomes of a held batch</strong><p>Returned, reprocessed, or destroyed — and who carries the cost.</p><span class="rsv">Slot reserved</span></div>
+</div></section>
+
+<section class="band"><div class="wrap">
+  <p>We do not sell what we cannot <span class="em">prove</span>.</p>
+  <p class="a">ASSAYER CO. &mdash; the one rule we do not cross</p>
+</div></section>
+</div></main><footer class="foot">
+  <div class="wrap">
+    <ul class="fnav" data-ar>
+      <li><a href="index.html">الصفحة الرئيسة</a></li>
+      <li><a href="chemicals.html">مواد كيميائيّة</a></li>
+      <li><a href="equipment.html">معدّات</a></li>
+      <li><a href="software.html">برمجيّات</a></li>
+      <li><a href="trade.html">وساطة تجاريّة</a></li>
+      <li><a href="method.html">الطريقة</a></li>
+      <li><a href="standards.html">كيف تُقرأ مواصفة</a></li>
+      <li><a href="index.html#rfq">اطلب عرض سعر</a></li>
+    </ul>
+    <ul class="fnav" data-en hidden>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="chemicals.html">Chemicals</a></li>
+      <li><a href="equipment.html">Equipment</a></li>
+      <li><a href="software.html">Software</a></li>
+      <li><a href="trade.html">Trade</a></li>
+      <li><a href="method.html">The method</a></li>
+      <li><a href="standards.html">Reading a specification</a></li>
+      <li><a href="index.html#rfq">Request a quote</a></li>
+    </ul>
+    <div class="legal">
+      <span>&copy; 2026 ASSAYER CO.</span><span>RIYADH · SAUDI ARABIA</span>
+      <span>PRIVACY <span class="tbd">PENDING</span></span><span>TERMS <span class="tbd">PENDING</span></span>
+    </div>
+  </div>
+</footer><script>
+(function(){
+  var root = document.documentElement, btn = document.getElementById('lang');
+  function set(l){
+    var isAr = l === 'ar';
+    root.setAttribute('lang', l);
+    root.setAttribute('dir', isAr ? 'rtl' : 'ltr');
+    document.querySelectorAll('[data-ar]').forEach(function(n){ n.hidden = !isAr; });
+    document.querySelectorAll('[data-en]').forEach(function(n){ n.hidden = isAr; });
+    btn.textContent = isAr ? 'EN' : '\u0639';
+    btn.setAttribute('aria-label', isAr ? 'Switch to English' : '\u0627\u0644\u062a\u0628\u062f\u064a\u0644 \u0625\u0644\u0649 \u0627\u0644\u0639\u0631\u0628\u064a\u0629');
+  }
+  /* The two panes are duplicate markup and the ARABIC one is what a cold load
+     shows, exactly as the homepage does it — so with no JS the page is a whole
+     Arabic document rather than an empty shell waiting for a script.
+
+     The attribute has to be SEEDED. The artifact wrapper emits the root element with no
+     lang, so `getAttribute('lang')` was null, `null === 'ar'` was false, and
+     the first click set Arabic — i.e. the toggle appeared dead and only worked
+     on the second press. Measured in a browser, not inferred. */
+  if (root.getAttribute('lang') !== 'en') set('ar');
+  btn.addEventListener('click', function(){
+    set(root.getAttribute('lang') === 'ar' ? 'en' : 'ar');
+  });
+})();
+</script>
+</body>
+</html>

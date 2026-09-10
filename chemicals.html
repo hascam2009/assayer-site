@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>:root{color-scheme:light}body{margin:0}img{max-width:100%}[hidden]:not([hidden=until-found]){display:none!important}</style>
+</head>
+<body>
+<title>مواد كيميائيّة — أسّاير</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Public+Sans:wght@300;400;500;600;700;800;900&display=swap">
+<style>
+:root{
+  --graphite:#22333B; --brass:#C9A24B; --brass-hi:#DDBE7A;
+  --ivory:#EFF2F1; --paper:#F2F0EC; --ink:#0B0C11;
+  --bg:#F2F0EC; --surface:#FAF9F6; --text:#1A2830; --text-2:#59656B;
+  --accent:#7E611C; --mark:#C9A24B;
+  --rule:rgba(34,51,59,.15); --rule-2:rgba(34,51,59,.07); --edge:rgba(34,51,59,.3);
+  --hdr:rgba(242,240,236,.9);
+  --d-bg:#0B0C11; --d-2:#14161D; --d-3:#1C1F27;
+  --d-text:#EFF2F1; --d-dim:#98A3A9; --d-rule:rgba(239,242,241,.13);
+  --ar:"IBM Plex Sans Arabic","Segoe UI",system-ui,sans-serif;
+  --la:"Public Sans","Segoe UI",system-ui,sans-serif;
+  --pad:clamp(20px,4.4vw,64px); --hdr-h:70px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0B0C11; --surface:#14161D; --text:#EFF2F1; --text-2:#98A3A9;
+    --accent:#C9A24B; --rule:rgba(239,242,241,.15); --rule-2:rgba(239,242,241,.07);
+    --edge:rgba(239,242,241,.3); --hdr:rgba(11,12,17,.9);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0B0C11; --surface:#14161D; --text:#EFF2F1; --text-2:#98A3A9;
+  --accent:#C9A24B; --rule:rgba(239,242,241,.15); --rule-2:rgba(239,242,241,.07);
+  --edge:rgba(239,242,241,.3); --hdr:rgba(11,12,17,.9);
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{
+  margin:0; background:var(--bg); color:var(--text); font-family:var(--ar);
+  font-size:17px; line-height:1.8; font-weight:400; -webkit-font-smoothing:antialiased;
+  font-variant-numeric:normal; overflow-x:clip;
+}
+[lang="en"]{font-family:var(--la); line-height:1.68}
+:focus-visible{outline:2px solid var(--brass); outline-offset:3px}
+img,svg{max-width:100%}
+h1,h2,h3,h4{margin:0; font-weight:600; letter-spacing:-.015em; text-wrap:balance; line-height:1.26}
+[lang="en"] h1,[lang="en"] h2{font-weight:800; letter-spacing:-.035em}
+[lang="en"] h3,[lang="en"] h4{font-weight:700; letter-spacing:-.02em}
+.wrap{max-width:980px; margin:0 auto; padding-inline:var(--pad)}
+.la{font-family:var(--la); direction:ltr; unicode-bidi:isolate; font-variant-numeric:tabular-nums}
+
+/* ── skip link: the shell's own rule, kept ── */
+.skip{
+  position:absolute; inset-inline-start:-9999px; top:0; z-index:200;
+  background:var(--ink); color:var(--ivory); padding:12px 18px; font-size:15px;
+}
+.skip:focus{inset-inline-start:0}
+
+/* ── header ── */
+.hdr{
+  position:sticky; top:0; z-index:60; background:var(--hdr);
+  -webkit-backdrop-filter:saturate(170%) blur(14px);
+  backdrop-filter:saturate(170%) blur(14px); border-bottom:1px solid var(--rule-2);
+}
+.hdr .wrap{display:flex; align-items:center; gap:14px; height:var(--hdr-h); max-width:1340px}
+.home{
+  display:flex; align-items:center; gap:11px; text-decoration:none; color:var(--text);
+  font-family:var(--la); font-size:12px; font-weight:800; letter-spacing:.22em;
+  text-transform:uppercase; direction:ltr; flex:0 0 auto;
+}
+.home .m{position:relative; width:22px; height:22px; flex:0 0 auto}
+.home .m i{position:absolute; width:14px; height:14px; border:2px solid var(--brass)}
+.home .m i:nth-of-type(1){top:0; inset-inline-start:0; border-color:var(--edge)}
+.home .m i:nth-of-type(2){bottom:0; inset-inline-end:0}
+.home .m b{position:absolute; inset-inline-start:8px; top:8px; width:6px; height:6px; background:var(--brass)}
+.hnav{display:flex; gap:clamp(12px,2vw,26px); margin-inline-start:auto; align-items:center; min-width:0}
+.hnav a{
+  color:var(--text-2); text-decoration:none; font-size:14.5px; font-weight:500;
+  white-space:nowrap; padding-block:8px; border-bottom:1px solid transparent;
+}
+.hnav a[aria-current]{color:var(--text); border-bottom-color:var(--mark)}
+.hnav a:hover{color:var(--text); border-bottom-color:var(--mark)}
+/* the bar sheds links in the order a reader here needs them LEAST: Home first
+   (the mark beside it already goes there), then the four fields. */
+@media(max-width:1180px){.hnav a.dom{display:none}}
+@media(max-width:720px){.hnav a.opt{display:none}}
+.lang{
+  font-family:var(--la); font-size:12px; font-weight:700; letter-spacing:.1em;
+  background:none; border:1px solid var(--rule); color:var(--text);
+  padding:9px 13px; cursor:pointer; min-height:40px; min-width:46px; line-height:1;
+}
+:root[lang="en"] .lang{font-family:var(--ar); font-size:17px; letter-spacing:0}
+.lang:hover{border-color:var(--edge)}
+
+/* ── page head ── */
+.phead{background:var(--ink); color:var(--d-text); padding-block:clamp(52px,8vw,104px) clamp(40px,6vw,74px)}
+.eyebrow{
+  display:flex; align-items:center; gap:11px; margin:0 0 24px;
+  font-family:var(--la); font-size:11px; font-weight:700; letter-spacing:.26em;
+  text-transform:uppercase; color:var(--brass); direction:ltr;
+}
+[lang="ar"] .eyebrow{flex-direction:row-reverse; justify-content:flex-start}
+.sq{width:9px; height:9px; background:currentColor; flex:0 0 auto}
+/* The same measure rule the homepage now keeps in three places: `--hch` is the
+   longest LINE in characters and `--hk` is how much column a character needs,
+   per script — the Latin face runs about 0.55em against the Arabic 0.42, so one
+   constant for both leaves one of them wrapping past its own <br>. `max-width`
+   is gone: it was a SECOND, conflicting measure, and on the homepage it was the
+   thing actually forcing the extra wraps. */
+.phead .wrap{container-type:inline-size}
+.phead h1{
+  --hch:22; --hk:190;
+  font-size:clamp(30px, calc(var(--hk) * 1cqi / var(--hch)), 60px);
+  line-height:1.2; color:var(--d-text);
+}
+[lang="en"] .phead h1{--hk:158}
+.phead .lede{margin:24px 0 0; color:var(--d-dim); max-width:62ch; font-size:18.5px}
+.crumb{
+  margin:0 0 20px; font-family:var(--la); font-size:10.5px; font-weight:700;
+  letter-spacing:.2em; text-transform:uppercase; color:rgba(152,163,169,.75); direction:ltr;
+}
+.crumb a{color:inherit; text-decoration:none; border-bottom:1px solid transparent}
+.crumb a:hover{color:var(--brass); border-bottom-color:var(--brass)}
+
+/* ── contents ── */
+.toc{
+  margin:clamp(30px,4vw,44px) 0 0; padding-top:24px;
+  border-top:1px solid var(--d-rule); display:grid; gap:0;
+}
+@media(min-width:760px){.toc{grid-template-columns:repeat(2,minmax(0,1fr)); column-gap:clamp(24px,4vw,56px)}}
+.toc a{
+  display:grid; grid-template-columns:auto 1fr; gap:0 16px; align-items:baseline;
+  padding-block:12px; border-bottom:1px solid var(--d-rule);
+  text-decoration:none; color:var(--d-dim); font-size:16px;
+}
+.toc a:hover{color:var(--d-text)}
+.toc .n{font-family:var(--la); font-size:11.5px; font-weight:700; color:var(--brass); direction:ltr}
+
+/* ── body ── */
+main section{padding-block:clamp(44px,6vw,80px); border-bottom:1px solid var(--rule-2)}
+main section:last-of-type{border-bottom:0}
+.sh{display:flex; align-items:baseline; gap:16px; margin:0 0 6px}
+.sh .n{font-family:var(--la); font-size:12px; font-weight:800; letter-spacing:.16em; color:var(--accent); direction:ltr; flex:0 0 auto}
+.sh h2{font-size:clamp(23px,3.6vw,38px)}
+main p{margin:16px 0 0; max-width:66ch}
+main p.lede{color:var(--text-2); font-size:18px; margin-top:14px}
+main strong{font-weight:600}
+main em{font-style:normal; color:var(--accent); font-weight:600}
+
+/* ── the numbered anatomy list ── */
+.an{list-style:none; margin:clamp(26px,3.4vw,38px) 0 0; padding:0}
+.an > li{
+  display:grid; grid-template-columns:auto minmax(0,1fr); gap:0 clamp(16px,2.6vw,34px);
+  padding-block:clamp(20px,2.8vw,30px); border-top:1px solid var(--rule);
+}
+.an > li:last-child{border-bottom:1px solid var(--rule)}
+.an .k{
+  font-family:var(--la); font-size:clamp(24px,3.4vw,40px); font-weight:300; line-height:1;
+  color:var(--rule); direction:ltr; letter-spacing:-.02em; font-variant-numeric:tabular-nums;
+}
+.an h3{font-size:clamp(18px,2.4vw,25px)}
+.an p{margin:11px 0 0; color:var(--text-2); font-size:16.5px}
+
+/* ── a fact table ── */
+.tw{overflow-x:auto; margin-top:clamp(24px,3.2vw,36px); border:1px solid var(--rule)}
+table{width:100%; border-collapse:collapse; font-size:15.5px; min-width:600px; background:var(--surface)}
+th{
+  font-family:var(--ar); font-size:12px; font-weight:700; color:var(--text-2);
+  text-align:start; padding:13px 15px; border-bottom:1px solid var(--rule); white-space:nowrap;
+}
+[lang="en"] th{font-family:var(--la)}
+td{padding:14px 15px; border-bottom:1px solid var(--rule-2); vertical-align:top; line-height:1.66}
+tr:last-child td{border-bottom:0}
+td.c{font-weight:600; white-space:nowrap}
+td .la{font-weight:600; color:var(--accent)}
+
+/* ── a callout ── */
+.note{
+  margin-top:clamp(24px,3vw,34px); padding:clamp(18px,2.2vw,24px);
+  background:var(--surface); border:1px solid var(--rule); border-inline-start:3px solid var(--brass);
+}
+.note b{
+  display:block; font-family:var(--la); font-size:10.5px; font-weight:700;
+  letter-spacing:.18em; text-transform:uppercase; color:var(--accent);
+  margin-bottom:9px; direction:ltr;
+}
+[lang="ar"] .note b{text-align:right}
+.note p{margin:0; max-width:64ch}
+.note p + p{margin-top:11px}
+
+/* ── a slot that is deliberately empty, same language as the homepage ── */
+.slot{
+  border:1.5px dashed var(--edge); padding:clamp(17px,2.1vw,24px);
+  display:flex; flex-direction:column; gap:8px; margin-top:16px;
+}
+.slot .cn{font-family:var(--la); font-size:10.5px; font-weight:700; letter-spacing:.2em; color:var(--accent); direction:ltr}
+[lang="ar"] .slot .cn{text-align:right}
+.slot strong{font-size:17px; font-weight:600}
+.slot p{margin:0; color:var(--text-2); font-size:15px; max-width:64ch}
+.slot .rsv{
+  margin-top:6px; padding-top:12px; border-top:1px dashed var(--rule);
+  font-family:var(--la); font-size:9.5px; font-weight:700; letter-spacing:.18em;
+  text-transform:uppercase; color:var(--text-2); direction:ltr;
+}
+[lang="ar"] .slot .rsv{text-align:right}
+
+/* ── worked example, in the site's own conformity vocabulary ── */
+.ex{border:1px solid var(--rule); background:var(--surface); margin-top:clamp(24px,3vw,34px)}
+.ex-h{
+  padding:15px 18px; border-bottom:1px solid var(--rule);
+  display:flex; flex-wrap:wrap; gap:6px 18px; justify-content:space-between;
+  font-family:var(--la); font-size:10px; font-weight:700; letter-spacing:.19em;
+  text-transform:uppercase; color:var(--text-2); direction:ltr;
+}
+.ex-h b{color:var(--accent)}
+.ex table{border:0; min-width:520px}
+.ex .num{font-family:var(--la); direction:ltr; font-variant-numeric:tabular-nums; font-weight:600}
+.ex .lbl{color:var(--text-2); font-size:14.5px}
+.ok{display:inline-block; width:9px; height:9px; background:var(--brass)}
+.bad{
+  display:inline-block; font-family:var(--la); font-size:9.5px; font-weight:700;
+  letter-spacing:.11em; text-transform:uppercase; color:#0B0C11;
+  background:var(--brass); padding:4px 8px; white-space:nowrap;
+}
+.ex-v{
+  padding:16px 18px; border-top:1px solid rgba(201,162,75,.4); background:rgba(201,162,75,.07);
+  display:flex; flex-wrap:wrap; gap:8px 20px; align-items:baseline; justify-content:space-between;
+}
+.ex-v .w{margin:0; font-size:17px; font-weight:600; color:var(--accent)}
+.ex-v .m{margin:0; font-family:var(--la); font-size:10px; font-weight:700; letter-spacing:.17em; text-transform:uppercase; color:var(--text-2); direction:ltr}
+
+/* ── the rule band, and the foot ── */
+.band{background:var(--ink); color:var(--d-text); padding-block:clamp(48px,7vw,84px)}
+.band p{
+  margin:0; font-size:clamp(22px,3.8vw,42px); line-height:1.34; font-weight:600;
+  max-width:22ch; color:var(--d-text); letter-spacing:-.02em;
+}
+[lang="en"] .band p{font-weight:800; letter-spacing:-.035em}
+.band .em{color:var(--brass)}
+.band .a{
+  margin:clamp(24px,3vw,38px) 0 0; padding-top:20px; border-top:1px solid var(--d-rule);
+  font-family:var(--la); font-size:10.5px; font-weight:700; letter-spacing:.22em;
+  text-transform:uppercase; color:var(--d-dim); direction:ltr;
+}
+.foot{background:var(--d-2); color:var(--d-text); padding-block:clamp(40px,5vw,64px) 34px}
+.foot .wrap{max-width:1340px}
+.fnav{display:flex; flex-wrap:wrap; gap:12px clamp(20px,3vw,40px); margin:0 0 26px; padding:0; list-style:none}
+.fnav a{color:var(--d-dim); text-decoration:none; font-size:15.5px; border-bottom:1px solid transparent}
+.fnav a:hover{color:var(--brass); border-bottom-color:var(--brass)}
+.legal{
+  padding-top:22px; border-top:1px solid var(--d-rule);
+  display:flex; flex-wrap:wrap; gap:9px 26px; align-items:center;
+  font-family:var(--la); font-size:10.5px; font-weight:700; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--d-dim); direction:ltr;
+}
+.tbd{
+  color:var(--d-dim); font-family:var(--la); font-size:10px; font-weight:700;
+  letter-spacing:.16em; direction:ltr; display:inline-block;
+  border:1px dashed rgba(239,242,241,.22); padding:1px 7px; line-height:1.7;
+}
+
+/* ── motion: same contract as the homepage ── */
+main section h2, .an > li{--s:0}
+.an > li:nth-child(1){--s:0} .an > li:nth-child(2){--s:1} .an > li:nth-child(3){--s:2}
+.an > li:nth-child(4){--s:3} .an > li:nth-child(5){--s:4} .an > li:nth-child(6){--s:5}
+main section{view-timeline-name:--secT; view-timeline-axis:block}
+@media (prefers-reduced-motion: no-preference){
+  @supports (animation-timeline: view()){
+    main section h2{
+      animation:headIn linear both; animation-timeline:--secT;
+      animation-range:entry 8% entry 66%;
+    }
+    @keyframes headIn{
+      from{clip-path:inset(0 0 100% 0); opacity:.25}
+      to  {clip-path:inset(-26% -26% -26% -26%); opacity:1}
+    }
+    .an > li{
+      animation:litIn linear both; animation-timeline:--secT;
+      animation-range:entry calc(22% + var(--s,0) * 7%) cover calc(20% + var(--s,0) * 7%);
+    }
+    @keyframes litIn{from{opacity:.34} to{opacity:1}}
+  }
+}
+
+.dtags{
+  margin:clamp(26px,3.4vw,38px) 0 0; padding:0; list-style:none;
+  display:flex; flex-wrap:wrap; gap:8px;
+}
+.dtags li{
+  font-family:var(--la); font-size:11px; font-weight:600; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--d-dim); border:1px solid var(--d-rule);
+  padding:6px 11px; direction:ltr;
+}
+.band .cta{
+  display:inline-flex; align-items:center; gap:10px; background:var(--brass);
+  color:#0B0C11; text-decoration:none; padding:14px 26px; font-size:16px;
+  font-weight:600; border:1px solid var(--brass); min-height:48px;
+}
+.band .cta:hover{background:var(--brass-hi); border-color:var(--brass-hi)}
+</style>
+<a class="skip" href="#main" data-ar>تخطَّ إلى المحتوى</a>
+<a class="skip" href="#main" data-en hidden>Skip to content</a>
+<header class="hdr">
+  <div class="wrap">
+    <a class="home" href="index.html"><span class="m"><i></i><i></i><b></b></span>ASSAYER</a>
+    <nav class="hnav" data-ar aria-label="الصفحات"><a href="index.html" class="opt">الرئيسة</a><a href="chemicals.html" class="dom">مواد كيميائيّة</a><a href="equipment.html" class="dom">معدّات</a><a href="software.html" class="dom">برمجيّات</a><a href="trade.html" class="dom">وساطة تجاريّة</a><a href="method.html">الطريقة</a><a href="standards.html">كيف تُقرأ مواصفة</a></nav>
+    <nav class="hnav" data-en hidden aria-label="Pages"><a href="index.html" class="opt">Home</a><a href="chemicals.html" class="dom">Chemicals</a><a href="equipment.html" class="dom">Equipment</a><a href="software.html" class="dom">Software</a><a href="trade.html" class="dom">Trade</a><a href="method.html">The method</a><a href="standards.html">Reading a specification</a></nav>
+    <button class="lang" id="lang" type="button" aria-label="Switch to English">EN</button>
+  </div>
+</header><main id="main" tabindex="-1"><div lang="ar" dir="rtl" data-ar><section class="phead"><div class="wrap"><p class="crumb"><a href="index.html">ASSAYER</a> &nbsp;/&nbsp; CHEMICALS</p><p class="eyebrow"><span class="sq"></span>01 &nbsp;&mdash;&nbsp; CHEMICALS</p><h1 style="--hch:22">مادّةٌ تصل<br>ومعها ما يُثبتها</h1><p class="lede">المواد والكواشف تُطلب بمواصفةٍ مكتوبة، وتصل ومعها شهادة تحليلٍ لكلّ دفعة. تُقاس على المواصفة عند الاستلام، وما يخرج عن النطاق لا يُسلَّم.</p><ul class="dtags"><li>Reagents</li><li>Certificate per batch</li><li>Traceable lots</li></ul></div></section><section id="s1"><div class="wrap"><div class="sh"><span class="n">01</span><h2>ما نورّده</h2></div><p class="lede">التوريد بالمواصفة لا بالاسم التجاريّ. الاسم التجاريّ يتغيّر بين مورّدَين ويصف الشيء نفسه، أو يصف شيئين مختلفين تحت اسمٍ واحد.</p><ol class="an"><li><span class="k">01</span><div><h3>الكواشف</h3><p>بدرجتها المطلوبة — <span class="la">Reagent</span> أو <span class="la">Technical</span> أو <span class="la">USP</span> — لأنّ الدرجة وحدها قد تضاعف السعر أو تُسقط الصلاحيّة للاستعمال.</p></div></li><li><span class="k">02</span><div><h3>المواد الكيميائيّة الصناعيّة</h3><p>بالاسم الكيميائيّ والمعيار المرجعيّ، لا بالوصف العامّ.</p></div></li><li><span class="k">03</span><div><h3>الدفعات المتتبَّعة</h3><p>كلّ دفعةٍ برقمها، فتُربط الورقة بالبرميل الذي في يدك.</p></div></li></ol></div></section><section id="s2"><div class="wrap"><div class="sh"><span class="n">02</span><h2>ما يصل معها</h2></div><p class="lede">شهادة المطابقة تُرفق مع كلّ دفعة افتراضيًّا — لا تحتاج إلى طلبها، ولا تُحتسب خدمةً إضافيّة.</p><ol class="an"><li><span class="k">01</span><div><h3>شهادة تحليلٍ للدفعة</h3><p>بقيمها المقيسة لا بحدود المواصفة معادةَ الطباعة. وما تحمله شهادةٌ صحيحة مشروحٌ في <a href="standards.html">صفحة قراءة المواصفة</a>.</p></div></li><li><span class="k">02</span><div><h3>قياسٌ عند الاستلام</h3><p>على المواصفة المتّفق عليها، بندًا ببند.</p></div></li><li><span class="k">03</span><div><h3>والحكم مكتوب</h3><p>طابقت أو لم تطابق. وما يخرج عن النطاق يُحجَز ولا يدخل مخزونك — و<a href="method.html">صفحة الطريقة</a> تصف ما يحدث بعدها.</p></div></li></ol></div></section><section id="s3"><div class="wrap"><div class="sh"><span class="n">03</span><h2>ما نحتاج معرفته لنردّ بسعر</h2></div><p class="lede">أربعة حقول. وما نقص منها يُسأل عنه سؤالًا محدَّدًا بدل أن يُقدَّر.</p><ol class="an"><li><span class="k">01</span><div><h3>المادّة أو الكاشف</h3><p>بالاسم الكيميائيّ.</p></div></li><li><span class="k">02</span><div><h3>الدرجة</h3><p><span class="la">Reagent · Technical · USP</span></p></div></li><li><span class="k">03</span><div><h3>المعيار المرجعيّ</h3><p><span class="la">ASTM · ISO · API</span> — بسنته.</p></div></li><li><span class="k">04</span><div><h3>الكمّية والوحدة</h3><p>الوحدة جزءٌ من الرقم لا زينةٌ بعده.</p></div></li></ol></div></section><section id="s4"><div class="wrap"><div class="sh"><span class="n">04</span><h2>أين يدخل النموذج</h2></div><p class="lede"><strong>مطابقة المواصفة قبل الشراء.</strong> الطلب يُقاس على المعيار المرجعيّ وعلى شهادات الدفعات السابقة، فيُقال ما يطابق وما لا يطابق قبل أن يُشترى.</p></div></section><section id="s5"><div class="wrap"><div class="sh"><span class="n">05</span><h2>ما لم يُقرَّر بعد</h2></div><p class="lede">كلّ ما فوق مستخرَجٌ ممّا تعلنه أسّاير عن نفسها. وهذه أربعة تفاصيل لا يقولها الموقع، فلن تُخترع هنا — كلٌّ منها خانةٌ محجوزة بمقاسها حتّى تُملأ.</p><div class="slot"><span class="cn">01</span><strong>قائمة الأصناف</strong><p>الفئات المتوفّرة فعلًا، وما يُطلب خصّيصى.</p><span class="rsv">Slot reserved</span></div><div class="slot"><span class="cn">02</span><strong>الوكالات</strong><p>المصانع التي نمثّلها، وفي أيّ صنف.</p><span class="rsv">Slot reserved</span></div><div class="slot"><span class="cn">03</span><strong>مهلة التوريد</strong><p>لكلّ فئة، ومن المخزون مقابل الطلب الخاصّ.</p><span class="rsv">Slot reserved</span></div><div class="slot"><span class="cn">04</span><strong>شروط المناولة والتخزين</strong><p>ما يلزم لكلّ مادّة، ومن يوفّره.</p><span class="rsv">Slot reserved</span></div></div></section><section class="band"><div class="wrap"><p>ولا نبيع ما لا نستطيع أن <span class="em">نُثبت مواصفته</span>.</p><p style="margin-top:clamp(24px,3vw,38px)"><a class="cta" href="index.html#rfq">اطلب عرض سعر لهذا المجال &rarr;</a></p><p class="a">ASSAYER CO. &mdash; the one rule we do not cross</p></div></section></div><div lang="en" dir="ltr" data-en hidden><section class="phead"><div class="wrap"><p class="crumb"><a href="index.html">ASSAYER</a> &nbsp;/&nbsp; CHEMICALS</p><p class="eyebrow"><span class="sq"></span>01 &nbsp;&mdash;&nbsp; CHEMICALS</p><h1 style="--hch:22">Material arrives<br>with its proof</h1><p class="lede">Materials and reagents are ordered against a written specification and arrive with a certificate of analysis for the batch. They are measured against that specification at receipt, and anything out of range is not delivered.</p><ul class="dtags"><li>Reagents</li><li>Certificate per batch</li><li>Traceable lots</li></ul></div></section><section id="s1"><div class="wrap"><div class="sh"><span class="n">01</span><h2>What we supply</h2></div><p class="lede">Supplied against a specification, not a trade name. A trade name changes between two suppliers for the same thing — or covers two different things under one name.</p><ol class="an"><li><span class="k">01</span><div><h3>Reagents</h3><p>At the grade required — Reagent, Technical or USP — because the grade alone can double the price or make the material unfit for the use.</p></div></li><li><span class="k">02</span><div><h3>Industrial chemicals</h3><p>By chemical name and reference standard, not by general description.</p></div></li><li><span class="k">03</span><div><h3>Traceable lots</h3><p>Every batch by its number, so the paper is tied to the drum in front of you.</p></div></li></ol></div></section><section id="s2"><div class="wrap"><div class="sh"><span class="n">02</span><h2>What arrives with it</h2></div><p class="lede">A certificate of conformity goes with every batch by default — you do not have to ask for it, and it is not billed as an extra.</p><ol class="an"><li><span class="k">01</span><div><h3>A certificate of analysis</h3><p>With measured values, not the specification's limits reprinted. What a sound certificate carries is set out in <a href="standards.html">reading a specification</a>.</p></div></li><li><span class="k">02</span><div><h3>Measurement at receipt</h3><p>Against the agreed specification, item by item.</p></div></li><li><span class="k">03</span><div><h3>And the judgement in writing</h3><p>Conforming or not. Anything out of range is held and does not enter your store — <a href="method.html">the method</a> describes what follows.</p></div></li></ol></div></section><section id="s3"><div class="wrap"><div class="sh"><span class="n">03</span><h2>What we need in order to quote</h2></div><p class="lede">Four fields. Anything missing is raised as one specific question rather than estimated.</p><ol class="an"><li><span class="k">01</span><div><h3>The material or reagent</h3><p>By chemical name.</p></div></li><li><span class="k">02</span><div><h3>The grade</h3><p>Reagent · Technical · USP</p></div></li><li><span class="k">03</span><div><h3>The reference standard</h3><p>ASTM · ISO · API — with its year.</p></div></li><li><span class="k">04</span><div><h3>Quantity and unit</h3><p>The unit is part of the figure, not decoration after it.</p></div></li></ol></div></section><section id="s4"><div class="wrap"><div class="sh"><span class="n">04</span><h2>Where the model comes in</h2></div><p class="lede"><strong>Conformity checked before purchase.</strong> The request is measured against the reference standard and against previous batch certificates, so what conforms and what does not is stated before anything is bought.</p></div></section><section id="s5"><div class="wrap"><div class="sh"><span class="n">05</span><h2>What is not decided yet</h2></div><p class="lede">Everything above is drawn from what ASSAYER already states about itself. These four details are not stated anywhere, so they are not invented here — each is a slot held at its own size until it is filled.</p><div class="slot"><span class="cn">01</span><strong>The catalogue</strong><p>Which categories are actually stocked, and what is sourced to order.</p><span class="rsv">Slot reserved</span></div><div class="slot"><span class="cn">02</span><strong>Agencies</strong><p>The manufacturers represented, and in which category.</p><span class="rsv">Slot reserved</span></div><div class="slot"><span class="cn">03</span><strong>Lead times</strong><p>Per category, and from stock versus to order.</p><span class="rsv">Slot reserved</span></div><div class="slot"><span class="cn">04</span><strong>Handling and storage</strong><p>What each material requires, and who provides it.</p><span class="rsv">Slot reserved</span></div></div></section><section class="band"><div class="wrap"><p>We do not sell what we cannot <span class="em">prove</span>.</p><p style="margin-top:clamp(24px,3vw,38px)"><a class="cta" href="index.html#rfq">Request a quote for this field &rarr;</a></p><p class="a">ASSAYER CO. &mdash; the one rule we do not cross</p></div></section></div></main><footer class="foot">
+  <div class="wrap">
+    <ul class="fnav" data-ar>
+      <li><a href="index.html">الصفحة الرئيسة</a></li>
+      <li><a href="chemicals.html">مواد كيميائيّة</a></li>
+      <li><a href="equipment.html">معدّات</a></li>
+      <li><a href="software.html">برمجيّات</a></li>
+      <li><a href="trade.html">وساطة تجاريّة</a></li>
+      <li><a href="method.html">الطريقة</a></li>
+      <li><a href="standards.html">كيف تُقرأ مواصفة</a></li>
+      <li><a href="index.html#rfq">اطلب عرض سعر</a></li>
+    </ul>
+    <ul class="fnav" data-en hidden>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="chemicals.html">Chemicals</a></li>
+      <li><a href="equipment.html">Equipment</a></li>
+      <li><a href="software.html">Software</a></li>
+      <li><a href="trade.html">Trade</a></li>
+      <li><a href="method.html">The method</a></li>
+      <li><a href="standards.html">Reading a specification</a></li>
+      <li><a href="index.html#rfq">Request a quote</a></li>
+    </ul>
+    <div class="legal">
+      <span>&copy; 2026 ASSAYER CO.</span><span>RIYADH · SAUDI ARABIA</span>
+      <span>PRIVACY <span class="tbd">PENDING</span></span><span>TERMS <span class="tbd">PENDING</span></span>
+    </div>
+  </div>
+</footer><script>
+(function(){
+  var root = document.documentElement, btn = document.getElementById('lang');
+  function set(l){
+    var isAr = l === 'ar';
+    root.setAttribute('lang', l);
+    root.setAttribute('dir', isAr ? 'rtl' : 'ltr');
+    document.querySelectorAll('[data-ar]').forEach(function(n){ n.hidden = !isAr; });
+    document.querySelectorAll('[data-en]').forEach(function(n){ n.hidden = isAr; });
+    btn.textContent = isAr ? 'EN' : '\u0639';
+    btn.setAttribute('aria-label', isAr ? 'Switch to English' : '\u0627\u0644\u062a\u0628\u062f\u064a\u0644 \u0625\u0644\u0649 \u0627\u0644\u0639\u0631\u0628\u064a\u0629');
+  }
+  /* The two panes are duplicate markup and the ARABIC one is what a cold load
+     shows, exactly as the homepage does it — so with no JS the page is a whole
+     Arabic document rather than an empty shell waiting for a script.
+
+     The attribute has to be SEEDED. The artifact wrapper emits the root element with no
+     lang, so `getAttribute('lang')` was null, `null === 'ar'` was false, and
+     the first click set Arabic — i.e. the toggle appeared dead and only worked
+     on the second press. Measured in a browser, not inferred. */
+  if (root.getAttribute('lang') !== 'en') set('ar');
+  btn.addEventListener('click', function(){
+    set(root.getAttribute('lang') === 'ar' ? 'en' : 'ar');
+  });
+})();
+</script>
+</body>
+</html>
