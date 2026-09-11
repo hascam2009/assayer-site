@@ -22,6 +22,57 @@
 <style>:root{color-scheme:light}body{margin:0}img{max-width:100%}[hidden]:not([hidden=until-found]){display:none!important}</style>
 </head>
 <body>
+<style>
+
+/* ═══ ONE CONTINUOUS SURFACE ═════════════════════
+   The seven pages are one document as far as a reader is concerned, and a
+   full page load says otherwise: a white flash, a jump to the top, a header
+   that blinks out and back. Cross-document view transitions are native and
+   cross-browser now, so this is thirty lines of CSS and no library — which
+   matters, because every other motion on this site is already native and
+   adding a framework for this one would be the odd thing out.
+
+   `@view-transition` is what OPTS IN. Without it the browser does a normal
+   navigation, which is the correct fallback and needs no feature test. */
+@view-transition{ navigation:auto }
+
+/* The chrome is CONTINUOUS: named, so the browser morphs one into the other
+   rather than cross-fading a copy. The header must not blink — it is the one
+   element on screen before and after, and a reader tracks it. */
+::view-transition-group(hdr){ animation-duration:.42s }
+.hdr{ view-transition-name:hdr }
+/* The FOOTER is deliberately not named. A view-transition-name must be unique
+   among RENDERED elements, and the homepage carries one footer per language
+   pane — the inactive one is display:none so it should not count, but a
+   duplicate name does not degrade, it skips the whole transition silently.
+   The header is unique on every page and is the element a reader tracks,
+   being the one thing on screen before and after. */
+
+/* the page body is what actually changes, so it is what actually moves */
+::view-transition-old(root){
+  animation:vtOut .34s cubic-bezier(.4,0,1,1) both;
+}
+::view-transition-new(root){
+  animation:vtIn .46s cubic-bezier(0,0,.2,1) both;
+}
+@keyframes vtOut{ to{ opacity:0; transform:translateY(-10px) } }
+@keyframes vtIn { from{ opacity:0; transform:translateY(14px);
+                        clip-path:inset(0 0 12% 0) }
+                  to  { opacity:1; transform:none; clip-path:inset(0 0 0 0) } }
+
+/* An RTL pane reads the other way, so the one directional cue flips with it.
+   Vertical motion is direction-neutral and stays; this is the horizontal
+   hairline that leads the eye. */
+::view-transition-new(root){ transform-origin:top }
+
+@media (prefers-reduced-motion: reduce){
+  ::view-transition-old(root), ::view-transition-new(root){ animation:none }
+  ::view-transition-group(hdr){ animation-duration:0s }
+}
+</style>
+<script type="speculationrules">
+{"prerender":[{"where":{"href_matches":"/assayer-site/*.html"},"eagerness":"moderate"}]}
+</script>
 <title data-ar="موقع أسّاير" data-en="ASSAYER — Industrial Solutions">ASSAYER — Industrial Solutions</title>
 <link rel="preload" href="fonts/public-sans-latin-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/public-sans-latin-800.woff2" as="font" type="font/woff2" crossorigin>
@@ -1102,6 +1153,65 @@ svg.lk-dark{display:none}
 
 
 
+
+/* ═══ THE PICTURE RESOLVES ═══════════════════════
+   Every photograph arrives as TWENTY PIXELS of itself, scaled up hard so the
+   blocks are the point, and the real file is then revealed down through it
+   behind a brass line. It reads as a measurement resolving, which is the
+   company's own subject — and it is not decoration: those twenty pixels are
+   what stands in the slot while two megabytes of photograph are still on the
+   wire, so a slot is never a hole and never a flash of empty panel.
+
+   `--r` is a registered property, so ONE number drives both the clip and the
+   line and they cannot drift apart. Registering it is what makes it
+   animatable at all — a plain custom property jumps from 0 to 1. */
+@property --r{ syntax:'<number>'; inherits:false; initial-value:0 }
+
+[data-img]{ position:relative }
+/* the placeholder is meant to look computed, not blurry */
+[data-img].lq{ image-rendering:pixelated }
+.ph-hi{
+  position:absolute; inset:0; z-index:0;
+  background-size:cover; background-position:center; background-repeat:no-repeat;
+  image-rendering:auto;                 /* `pixelated` inherits — the real file must not */
+  clip-path:inset(0 0 calc((1 - var(--r)) * 100%) 0);
+}
+.ph-scan{
+  position:absolute; inset-inline:0; z-index:1; height:2px; pointer-events:none;
+  top:calc(var(--r) * 100%); opacity:0;
+  background:linear-gradient(90deg, transparent, var(--brass) 18%, var(--brass) 82%, transparent);
+}
+@keyframes resolve{ from{ --r:0 } to{ --r:1 } }
+@keyframes scanline{
+  from{ --r:0; opacity:0 }
+  14% { opacity:.95 }
+  86% { opacity:.95 }
+  to  { --r:1; opacity:0 }
+}
+.ph-hi.go  { animation:resolve  var(--rs,1150ms) cubic-bezier(.22,.61,.36,1) forwards }
+.ph-scan.go{ animation:scanline var(--rs,1150ms) cubic-bezier(.22,.61,.36,1) forwards }
+
+/* and once it has resolved it DRIFTS — the same slow push the hero uses, from
+   the same keyframes, because a still photograph reading as footage is the
+   whole of that effect and two definitions of it would drift apart. It runs
+   only while the slot is on screen: fifteen of these animating behind the
+   fold is GPU spent on nothing anybody is looking at. */
+/* `--r` is held at 1 by a DECLARATION, never by the resolve animation's
+   `forwards` fill. The drift replaces that animation when it starts, and the
+   moment it does the fill is gone and a registered property falls back to its
+   initial value — 0 — which clips the whole high-res layer away. Every numeric
+   probe still read "loaded, attached, class correct"; the picture was simply
+   not on screen. Found by looking at it. */
+.ph-hi.done{ --r:1 }
+.ph-hi.kb.done{ animation:kenburns var(--kb2,26s) linear infinite alternate }
+.ph-hi.kb.paused{ animation-play-state:paused }
+
+@media (prefers-reduced-motion: reduce){
+  .ph-hi.go, .ph-scan.go, .ph-hi.kb, .ph-hi.kb.done{ animation:none }
+  .ph-hi{ clip-path:none }        /* the picture is simply there */
+  .ph-scan{ display:none }
+}
+
 /* ═══ STEPS ══════════════════════════════════════ */
 .steps{display:grid; grid-template-columns:1fr; gap:0; margin-top:clamp(36px,5vw,64px)}
 @media(min-width:860px){.steps{grid-template-columns:repeat(3,1fr); gap:0 clamp(28px,4vw,60px)}}
@@ -1938,6 +2048,16 @@ section:not(.hero):not(.mark-sec):not(.rule-sec):not(.scale) h2{
 .ara, .tagline .ara, .chk-tbl td.ara{
   font-family:var(--ar); letter-spacing:0;
   direction:rtl; unicode-bidi:isolate;
+}
+
+/* ═══ TWO TARGETS A THUMB COULD MISS ═════════════
+   Measured on a phone with `(pointer: coarse)` true: the footer's page links
+   were 21px tall and the sticky mini-header's mark 26px. Grown with PADDING,
+   not with a height — padding is hit area, a height is only a look. And under
+   a coarse pointer ONLY, so nothing a mouse sees changes by a pixel. */
+@media (pointer: coarse){
+  .foot li a{ display:inline-block; padding-block:10px }
+  .brand{ padding-block:7px }
 }
 </style>
 
@@ -2789,6 +2909,28 @@ section:not(.hero):not(.mark-sec):not(.rule-sec):not(.scale) h2{
      Empty string = that slot keeps the geometric artwork, so the
      page is complete and correct with no photography at all.
      ───────────────────────────────────────────────────────────── */
+  /* Twenty pixels of each photograph, inline. See `.ph-hi` for what this is
+     for: it is both the stand-in while the real file arrives AND the ground
+     the real file resolves out of. 8 KB for all sixteen. */
+  var LQIP = {
+    aiRoom: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABMNDhEODBMRDxEVFBMXHTAfHRoaHToqLCMwRT1JR0Q9Q0FMVm1dTFFoUkFDX4JgaHF1e3x7SlyGkIV3j214e3b/2wBDARQVFR0ZHTgfHzh2T0NPdnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnb/wAARCAALABQDASIAAhEBAxEB/8QAGAAAAgMAAAAAAAAAAAAAAAAAAAYCAwT/xAAjEAACAgIBAgcAAAAAAAAAAAABAgADBBEhBTESFSIjUXGh/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAH/xAAVEQEBAAAAAAAAAAAAAAAAAAAAAf/aAAwDAQACEQMRAD8AXKqQ+ZjM1ZdGcM6hSfSDzsfGo2+ZdBqqJx1xCV7A163+RNqyLk14bXG+DoydnuKzvyx7mCxnyGRrnIGgSSBCVMBx9QlH/9k=',
+    ceo: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABMNDhEODBMRDxEVFBMXHTAfHRoaHToqLCMwRT1JR0Q9Q0FMVm1dTFFoUkFDX4JgaHF1e3x7SlyGkIV3j214e3b/2wBDARQVFR0ZHTgfHzh2T0NPdnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnb/wAARCAAUABQDASIAAhEBAxEB/8QAGgABAAIDAQAAAAAAAAAAAAAAAAQFAQIGB//EACQQAAEDAwMEAwAAAAAAAAAAAAEAAgMFERIEBiETFCKxMUHR/8QAFAEBAAAAAAAAAAAAAAAAAAAAAP/EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQA/AK2eBseldILXA4WdZT4WU2KePq9Qm0geOLqfRqeKlo3mWbDIWa0D2pWo2/J2cjGzDJpzA+cjb7QcW9nki2e7yKIOm29K9lPaWmxufY/Ve9xIYgSRctREHntRAbUJw0WGZ4REQf/Z',
+    chemicals: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABMNDhEODBMRDxEVFBMXHTAfHRoaHToqLCMwRT1JR0Q9Q0FMVm1dTFFoUkFDX4JgaHF1e3x7SlyGkIV3j214e3b/2wBDARQVFR0ZHTgfHzh2T0NPdnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnb/wAARCAANABQDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAMFAgT/xAAhEAACAgIBBAMAAAAAAAAAAAABAgMRAAQhBRJRgTJx8P/EABUBAQEAAAAAAAAAAAAAAAAAAAIB/8QAFREBAQAAAAAAAAAAAAAAAAAAAAH/2gAMAwEAAhEDEQA/AMbml0smV9duVJqPvAo/Z5yfEoW2Gs6kOSHiIscn96x2zpod2SEEhls9/n15xsbpFGIzGGo/KyCcMJxNHH3ty6WboJhlIRhgCCRhlF//2Q==',
+    equipPlate: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABMNDhEODBMRDxEVFBMXHTAfHRoaHToqLCMwRT1JR0Q9Q0FMVm1dTFFoUkFDX4JgaHF1e3x7SlyGkIV3j214e3b/2wBDARQVFR0ZHTgfHzh2T0NPdnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnb/wAARCAANABQDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAMEAgb/xAAhEAACAQMEAwEAAAAAAAAAAAABAgMABBEFEiFBEyIxcf/EABYBAQEBAAAAAAAAAAAAAAAAAAMBAv/EABgRAQEBAQEAAAAAAAAAAAAAAAEAEQID/9oADAMBAAIRAxEAPwCzSLuOyFtGGbwyxFipO7D5HI75yadDrztZ3sksYSSJ3SPHIyBwD+cVysd8CQwjKgYwFemS328NlX9n3n37PfymfNWE7Mt6u0TXpYeV2ZQWeRjlj2ePgoqR75DgPBvIGMlzRWwym3//2Q==',
+    equipment: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABMNDhEODBMRDxEVFBMXHTAfHRoaHToqLCMwRT1JR0Q9Q0FMVm1dTFFoUkFDX4JgaHF1e3x7SlyGkIV3j214e3b/2wBDARQVFR0ZHTgfHzh2T0NPdnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnb/wAARCAAMABQDASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAABQADBP/EACAQAAIBBAEFAAAAAAAAAAAAAAECEQADBCETBSJBgZH/xAAWAQEBAQAAAAAAAAAAAAAAAAAAAQL/xAAWEQEBAQAAAAAAAAAAAAAAAAAAARH/2gAMAwEAAhEDEQA/AN8lCc7KdgrIt0m4vhhA1QGZj4ty6eFeNSoIBOgKZN5mfMJjueD7AFc4sW8cQiyQIlt1m3Fk0G/TSpHHcYiN6jf2qmmYsZNVNH//2Q==',
+    fieldTalk: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABMNDhEODBMRDxEVFBMXHTAfHRoaHToqLCMwRT1JR0Q9Q0FMVm1dTFFoUkFDX4JgaHF1e3x7SlyGkIV3j214e3b/2wBDARQVFR0ZHTgfHzh2T0NPdnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnb/wAARCAANABQDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAQFA//EACQQAAICAgEBCQAAAAAAAAAAAAECAxEABAVxEhMUISIkMUFh/8QAFQEBAQAAAAAAAAAAAAAAAAAAAQL/xAAWEQEBAQAAAAAAAAAAAAAAAAAAARH/2gAMAwEAAhEDEQA/AIS7EaufbrJRr0k11x2WeCLUYeCHeCxZY/F1kvcLQ7MixsVUEeQ+rAxrmJCIdMrYMilib6YHRHtRgEdiBKNUyknDN+PCLpoWjR2YkksP04ZNL//Z',
+    fieldWalk: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABMNDhEODBMRDxEVFBMXHTAfHRoaHToqLCMwRT1JR0Q9Q0FMVm1dTFFoUkFDX4JgaHF1e3x7SlyGkIV3j214e3b/2wBDARQVFR0ZHTgfHzh2T0NPdnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnb/wAARCAAUABQDASIAAhEBAxEB/8QAGgABAAIDAQAAAAAAAAAAAAAAAAQFAQMGB//EACYQAAICAgEDAgcAAAAAAAAAAAECABEDBBIFBiETYTFBUqGxwdH/xAAWAQEBAQAAAAAAAAAAAAAAAAABAAL/xAAVEQEBAAAAAAAAAAAAAAAAAAAAAf/aAAwDAQACEQMRAD8A6Dq3VE6ZqeoaORjSKfmZE2u5tbBva+MPeJkDOQPqA41KfujI+5p4m9MckY0AbvxZ/Eg7Gk67+kgFqUQN7X4/UIa9BLC4lQOoZVAXghoAWWMTLSt2MS7GPhkuvI8e4qYfGMmfHlYnklV9/wCxEg2M7A/GIiKf/9k=',
+    fieldYard: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABMNDhEODBMRDxEVFBMXHTAfHRoaHToqLCMwRT1JR0Q9Q0FMVm1dTFFoUkFDX4JgaHF1e3x7SlyGkIV3j214e3b/2wBDARQVFR0ZHTgfHzh2T0NPdnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnb/wAARCAANABQDASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAABQACA//EACUQAAIBAwMCBwAAAAAAAAAAAAECBAADERIhQQUTIjFRUmGB0f/EABYBAQEBAAAAAAAAAAAAAAAAAAEAAv/EABcRAQADAAAAAAAAAAAAAAAAAAABERL/2gAMAwEAAhEDEQA/ABhIBkEO4FsZbWDkevFKxLNudbRA7ugJLaOc/Hn90WInbu7PnwjjFN9GjCMzX85L4TA2A5qs04W4EyHqs2u2UDbMzDJqrUpLVqQ6IrAKfd+1VjUnMP/Z',
+    hero: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABMNDhEODBMRDxEVFBMXHTAfHRoaHToqLCMwRT1JR0Q9Q0FMVm1dTFFoUkFDX4JgaHF1e3x7SlyGkIV3j214e3b/2wBDARQVFR0ZHTgfHzh2T0NPdnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnb/wAARCAALABQDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAQFAgP/xAAjEAACAgIBAgcAAAAAAAAAAAABAgADBBEhMXEFEjRBUWLR/8QAFgEBAQEAAAAAAAAAAAAAAAAAAgAD/8QAGBEBAQADAAAAAAAAAAAAAAAAAAIBERL/2gAMAwEAAhEDEQA/AOFfiIzceuvOQm5eFsI0T3iV9z1WWIA2mHOt89+kuGtHxGLqCVXg/ElWIq1tpQOsyi+jrGiQuIHqhT9Qv7CbqJ8pHsCQIRJ//9k=',
+    reference: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABMNDhEODBMRDxEVFBMXHTAfHRoaHToqLCMwRT1JR0Q9Q0FMVm1dTFFoUkFDX4JgaHF1e3x7SlyGkIV3j214e3b/2wBDARQVFR0ZHTgfHzh2T0NPdnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnb/wAARCAAMABQDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAQCAwUG/8QAJxAAAgEDAgMJAAAAAAAAAAAAAQIDAAQREiEFExQiQVFSgZGSseH/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8A5eC0n1qywsCCD2tvut1rKxdmZTIgwCVC5xjuqudennjRCSr+bcj1qVlCl+ZGmGNB2C7ftAlPwaASHkX6hPCVSrD2opy4tYxKcF/maKD/2Q==',
+    sample: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABMNDhEODBMRDxEVFBMXHTAfHRoaHToqLCMwRT1JR0Q9Q0FMVm1dTFFoUkFDX4JgaHF1e3x7SlyGkIV3j214e3b/2wBDARQVFR0ZHTgfHzh2T0NPdnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnb/wAARCAAMABQDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAMGBAX/xAAhEAABAwQCAwEAAAAAAAAAAAABAgMRAAQhQQUSIiNRYf/EABQBAQAAAAAAAAAAAAAAAAAAAAD/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwBF7dP3SEJDaluGFdSII1v8rDyFk/cFMBKShPl2WMHNUXJ+tEt+JnW8Gpbk7hxt1xKDH07NBz+rjeCkA/CaKQqSZJk0UH//2Q==',
+    scale: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABMNDhEODBMRDxEVFBMXHTAfHRoaHToqLCMwRT1JR0Q9Q0FMVm1dTFFoUkFDX4JgaHF1e3x7SlyGkIV3j214e3b/2wBDARQVFR0ZHTgfHzh2T0NPdnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnb/wAARCAAMABQDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAMEBf/EACMQAAICAQMDBQAAAAAAAAAAAAECAAMREhMxBCFRQnGBkdH/xAAVAQEBAAAAAAAAAAAAAAAAAAABA//EABgRAAMBAQAAAAAAAAAAAAAAAAABAhFR/9oADAMBAAIRAxEAPwCAXo17Cm/WoOAc6QfuNuWwUu5ZBgduTk+8w1J3M+D5lh6m3aKFsggc/P7Lu76TUzwRc1j2ZDhe3pJhJ3dtXMI6wxH/2Q==',
+    software: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABMNDhEODBMRDxEVFBMXHTAfHRoaHToqLCMwRT1JR0Q9Q0FMVm1dTFFoUkFDX4JgaHF1e3x7SlyGkIV3j214e3b/2wBDARQVFR0ZHTgfHzh2T0NPdnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnb/wAARCAANABQDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAMFBv/EACAQAAIBBQEAAwEAAAAAAAAAAAECAwAEBRIhETFRUmH/xAAVAQEBAAAAAAAAAAAAAAAAAAABAv/EABcRAQEBAQAAAAAAAAAAAAAAAAEAAiH/2gAMAwEAAhEDEQA/AEYLB4ybDrf3zOurNs2/igA1RvcHhEtzetC8kRG5Mbn4+wKzFwht8WSksvT4V3Ov958Uy1v7q+sFt5JWEUAK+KSNwf13tUdh5SmiTdtCCvvPPqinSQgNxj3tFBsly3//2Q==',
+    swCal: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABMNDhEODBMRDxEVFBMXHTAfHRoaHToqLCMwRT1JR0Q9Q0FMVm1dTFFoUkFDX4JgaHF1e3x7SlyGkIV3j214e3b/2wBDARQVFR0ZHTgfHzh2T0NPdnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnb/wAARCAAMABQDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAQFBv/EACEQAAEDBQACAwAAAAAAAAAAAAEAAgQDBRESITFBQnGh/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAH/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwDJE4CbtcahMlGnJkNjs1J3Lc95xJZygEg8JH0qLNe3W+nVcxl0a9o+Wvn9Qo2xPsoQf//Z',
+    swHub: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABMNDhEODBMRDxEVFBMXHTAfHRoaHToqLCMwRT1JR0Q9Q0FMVm1dTFFoUkFDX4JgaHF1e3x7SlyGkIV3j214e3b/2wBDARQVFR0ZHTgfHzh2T0NPdnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnb/wAARCAANABQDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAIG/8QAHhABAAICAQUAAAAAAAAAAAAAAQACESEDMTJBcYH/xAAVAQEBAAAAAAAAAAAAAAAAAAAAAf/EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQA/AMojZdLvcPHevdSw48knkcLXB7jjDDklQtWw9EiLFc6MfYgf/9k=',
+    trade: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABMNDhEODBMRDxEVFBMXHTAfHRoaHToqLCMwRT1JR0Q9Q0FMVm1dTFFoUkFDX4JgaHF1e3x7SlyGkIV3j214e3b/2wBDARQVFR0ZHTgfHzh2T0NPdnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnb/wAARCAANABQDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAMFBP/EACAQAAICAgICAwAAAAAAAAAAAAECAxEABCExElEFQmH/xAAVAQEBAAAAAAAAAAAAAAAAAAACAf/EABkRAAIDAQAAAAAAAAAAAAAAAAASAQJREf/aAAwDAQACEQMRAD8AgxTuFEjshTqqx7bGtLCxVAJK+3VV7yQNohAvgCB+4xN/wWhAhv3je2hSuGvaSSF0Uza5JRSeCK4wxEnyrSMCYU4Fd4YWnS8g/9k=',
+  };
+
   var IMAGES = {
     ceo:       'img/ceo.jpg',
     fieldYard: 'img/fieldYard.jpg',
@@ -2854,7 +2996,15 @@ section:not(.hero):not(.mark-sec):not(.rule-sec):not(.scale) h2{
         l = document.createElement('div');
         l.className = 'hstage-l';
         l.setAttribute('data-img', sl.getAttribute('data-img'));   /* the grade is per photograph */
-        l.style.backgroundImage = 'url("' + src + '")';
+        /* Two background layers, not two elements and no timing: the first is
+           painted over the second, so until the photograph is decoded the
+           reader sees its twenty-pixel self rather than an empty stage. The
+           hero is the largest paint on the page and the first thing anybody
+           sees, so it is the one slot that must never be blank. */
+        var lqh = LQIP[sl.getAttribute('data-img')];
+        l.style.backgroundImage = lqh
+          ? 'url("' + src + '"), url("' + lqh + '")'
+          : 'url("' + src + '")';
         stage.appendChild(l);
       }
       layers.push(l);
@@ -3174,11 +3324,67 @@ section:not(.hero):not(.mark-sec):not(.rule-sec):not(.scale) h2{
   (function(){
     var slots = [].slice.call(document.querySelectorAll('[data-img]'))
       .filter(function(el){ return !el.classList.contains('hslide'); });
+    var reduce = window.matchMedia
+      && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /* Two layers, and the order matters: the placeholder goes on the SLOT so it
+       is painted the instant the slot is reached, and the real file goes on a
+       child that is revealed down through it. Setting both on one element would
+       mean one background replacing the other with nothing in between. */
     function fill(el){
-      var src = IMAGES[el.getAttribute('data-img')];
-      if (src) el.style.backgroundImage = 'url("' + src + '")';
+      var key = el.getAttribute('data-img');
+      var src = IMAGES[key], lq = LQIP[key];
+      if (!src) return;
+
+      if (lq){ el.style.backgroundImage = 'url("' + lq + '")'; el.classList.add('lq'); }
+      else   { el.style.backgroundImage = 'url("' + src + '")'; return; }
+
+      var hi = document.createElement('div');
+      hi.className = 'ph-hi';
+      /* the slot's own framing, whatever its rule set — a child that centred
+         its own copy would sit a few per cent off the placeholder under it */
+      var cs = getComputedStyle(el);
+      hi.style.backgroundPosition = cs.backgroundPosition;
+      hi.style.backgroundSize = cs.backgroundSize;
+
+      var scan = document.createElement('i');
+      scan.className = 'ph-scan';
+      scan.setAttribute('aria-hidden', 'true');
+
+      var img = new Image();
+      img.onload = function(){
+        hi.style.backgroundImage = 'url("' + src + '")';
+        el.appendChild(hi);
+        if (reduce){ return; }        /* the css takes it from here: no clip, no line */
+        el.appendChild(scan);
+        /* one frame, so the browser has the element laid out before it animates */
+        requestAnimationFrame(function(){
+          hi.classList.add('go'); scan.classList.add('go');
+          setTimeout(function(){
+            if (scan.parentNode) scan.parentNode.removeChild(scan);
+            hi.classList.remove('go'); hi.classList.add('kb', 'done');
+            if (DRIFT) DRIFT.observe(el);   /* and only now does it start to move */
+          }, 1250);
+        });
+      };
+      img.onerror = function(){       /* the placeholder stays: better than an empty slot */
+        el.classList.remove('lq');
+        el.style.backgroundImage = 'url("' + src + '")';
+      };
+      img.src = src;
     }
-    if (!('IntersectionObserver' in window)) { slots.forEach(fill); return; }
+
+    /* The drift runs only while the slot is on screen. Fifteen photographs
+       pushing behind the fold is GPU spent on nothing anybody is looking at —
+       and on a phone it is battery. */
+    var HAS_IO = 'IntersectionObserver' in window;
+    var DRIFT = HAS_IO ? new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        var hi = e.target.querySelector('.ph-hi');
+        if (hi) hi.classList.toggle('paused', !e.isIntersecting);
+      });
+    }, { rootMargin: '60px 0px' }) : null;
+    if (!HAS_IO) { slots.forEach(fill); return; }
     var io = new IntersectionObserver(function(entries){
       entries.forEach(function(e){
         if (!e.isIntersecting) return;
@@ -3227,8 +3433,18 @@ section:not(.hero):not(.mark-sec):not(.rule-sec):not(.scale) h2{
   });
   var ar = document.getElementById('ar'), en = document.getElementById('en'), btn = document.getElementById('lang');
 
+  /* The choice has to OUTLIVE the page. Each page seeds its own language, so
+     without this a reader who picked Arabic is handed English again on the
+     next link — and now that the navigation is a continuous transition rather
+     than a reload, that snap back is the most visible thing on screen.
+     Wrapped because a private window THROWS on access rather than returning
+     null, and a language toggle is not worth taking the page down for. */
+  function rememberLang(l){ try{ localStorage.setItem('assayer-lang', l); }catch(e){} }
+  function recallLang(){ try{ return localStorage.getItem('assayer-lang'); }catch(e){ return null; } }
+
   function setLang(l){
     var isAr = l === 'ar';
+    rememberLang(l);
     ar.hidden = !isAr; en.hidden = isAr;
     root.setAttribute('lang', l);
     root.setAttribute('dir', isAr ? 'rtl' : 'ltr');
@@ -3468,7 +3684,7 @@ section:not(.hero):not(.mark-sec):not(.rule-sec):not(.scale) h2{
   window.addEventListener('scroll', syncHdr, { passive: true });
   window.addEventListener('resize', syncHdr);
 
-  setLang('en');
+  setLang(recallLang() === 'ar' ? 'ar' : 'en');   /* English unless asked otherwise */
   syncHdr();
   btn.addEventListener('click', function(){
     setLang(root.getAttribute('lang') === 'ar' ? 'en' : 'ar');

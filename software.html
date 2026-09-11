@@ -22,6 +22,57 @@
 <style>:root{color-scheme:light}body{margin:0}img{max-width:100%}[hidden]:not([hidden=until-found]){display:none!important}</style>
 </head>
 <body>
+<style>
+
+/* ═══ ONE CONTINUOUS SURFACE ═════════════════════
+   The seven pages are one document as far as a reader is concerned, and a
+   full page load says otherwise: a white flash, a jump to the top, a header
+   that blinks out and back. Cross-document view transitions are native and
+   cross-browser now, so this is thirty lines of CSS and no library — which
+   matters, because every other motion on this site is already native and
+   adding a framework for this one would be the odd thing out.
+
+   `@view-transition` is what OPTS IN. Without it the browser does a normal
+   navigation, which is the correct fallback and needs no feature test. */
+@view-transition{ navigation:auto }
+
+/* The chrome is CONTINUOUS: named, so the browser morphs one into the other
+   rather than cross-fading a copy. The header must not blink — it is the one
+   element on screen before and after, and a reader tracks it. */
+::view-transition-group(hdr){ animation-duration:.42s }
+.hdr{ view-transition-name:hdr }
+/* The FOOTER is deliberately not named. A view-transition-name must be unique
+   among RENDERED elements, and the homepage carries one footer per language
+   pane — the inactive one is display:none so it should not count, but a
+   duplicate name does not degrade, it skips the whole transition silently.
+   The header is unique on every page and is the element a reader tracks,
+   being the one thing on screen before and after. */
+
+/* the page body is what actually changes, so it is what actually moves */
+::view-transition-old(root){
+  animation:vtOut .34s cubic-bezier(.4,0,1,1) both;
+}
+::view-transition-new(root){
+  animation:vtIn .46s cubic-bezier(0,0,.2,1) both;
+}
+@keyframes vtOut{ to{ opacity:0; transform:translateY(-10px) } }
+@keyframes vtIn { from{ opacity:0; transform:translateY(14px);
+                        clip-path:inset(0 0 12% 0) }
+                  to  { opacity:1; transform:none; clip-path:inset(0 0 0 0) } }
+
+/* An RTL pane reads the other way, so the one directional cue flips with it.
+   Vertical motion is direction-neutral and stays; this is the horizontal
+   hairline that leads the eye. */
+::view-transition-new(root){ transform-origin:top }
+
+@media (prefers-reduced-motion: reduce){
+  ::view-transition-old(root), ::view-transition-new(root){ animation:none }
+  ::view-transition-group(hdr){ animation-duration:0s }
+}
+</style>
+<script type="speculationrules">
+{"prerender":[{"where":{"href_matches":"/assayer-site/*.html"},"eagerness":"moderate"}]}
+</script>
 <title data-ar="برمجيّات المختبرات — أسّاير" data-en="Laboratory software — ASSAYER">Laboratory software — ASSAYER</title>
 <link rel="preload" href="fonts/public-sans-latin-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/public-sans-latin-800.woff2" as="font" type="font/woff2" crossorigin>
@@ -502,8 +553,14 @@ main section{view-timeline-name:--secT; view-timeline-axis:block}
 </footer><script>
 (function(){
   var root = document.documentElement, btn = document.getElementById('lang');
+  /* The choice has to OUTLIVE the page — each page seeds its own language, so
+     without this a reader who picked Arabic is handed English again on the
+     next link. Wrapped because a private window THROWS on access. */
+  function rememberLang(l){ try{ localStorage.setItem('assayer-lang', l); }catch(e){} }
+  function recallLang(){ try{ return localStorage.getItem('assayer-lang'); }catch(e){ return null; } }
   function set(l){
     var isAr = l === 'ar';
+    rememberLang(l);
     root.setAttribute('lang', l);
     root.setAttribute('dir', isAr ? 'rtl' : 'ltr');
     document.querySelectorAll('[data-ar]').forEach(function(n){ n.hidden = !isAr; });
@@ -521,7 +578,7 @@ main section{view-timeline-name:--secT; view-timeline-axis:block}
      lang, so `getAttribute('lang')` was null, `null === 'ar'` was false, and
      the first click set Arabic — i.e. the toggle appeared dead and only worked
      on the second press. Measured in a browser, not inferred. */
-  set('en');
+  set(recallLang() === 'ar' ? 'ar' : 'en');   /* English unless asked otherwise */
   btn.addEventListener('click', function(){
     set(root.getAttribute('lang') === 'ar' ? 'en' : 'ar');
   });
