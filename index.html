@@ -1188,8 +1188,8 @@ svg.lk-dark{display:none}
   86% { opacity:.95 }
   to  { --r:1; opacity:0 }
 }
-.ph-hi.go  { animation:resolve  var(--rs,1150ms) cubic-bezier(.22,.61,.36,1) forwards }
-.ph-scan.go{ animation:scanline var(--rs,1150ms) cubic-bezier(.22,.61,.36,1) forwards }
+.ph-hi.go  { animation:resolve  var(--rs,1400ms) cubic-bezier(.22,.61,.36,1) forwards }
+.ph-scan.go{ animation:scanline var(--rs,1400ms) cubic-bezier(.22,.61,.36,1) forwards }
 
 /* and once it has resolved it DRIFTS — the same slow push the hero uses, from
    the same keyframes, because a still photograph reading as footage is the
@@ -3352,20 +3352,34 @@ section:not(.hero):not(.mark-sec):not(.rule-sec):not(.scale) h2{
       scan.setAttribute('aria-hidden', 'true');
 
       var img = new Image();
+      /* LOADING and REVEALING are two different questions and were wrongly
+         merged. Fetching has to start EARLY — several hundred pixels before
+         the slot arrives — or the reader waits on the network. Revealing must
+         start when the slot is actually ON SCREEN, or the whole thing happens
+         above the fold and is over before anybody can see it.
+
+         Measured with one observer doing both: every slot entered the viewport
+         with its reveal already 95-99% complete. The effect was real, ran
+         correctly, and was invisible in normal use. */
       img.onload = function(){
         hi.style.backgroundImage = 'url("' + src + '")';
         el.appendChild(hi);
         if (reduce){ return; }        /* the css takes it from here: no clip, no line */
         el.appendChild(scan);
-        /* one frame, so the browser has the element laid out before it animates */
-        requestAnimationFrame(function(){
-          hi.classList.add('go'); scan.classList.add('go');
-          setTimeout(function(){
-            if (scan.parentNode) scan.parentNode.removeChild(scan);
-            hi.classList.remove('go'); hi.classList.add('kb', 'done');
-            if (DRIFT) DRIFT.observe(el);   /* and only now does it start to move */
-          }, 1250);
-        });
+        el.__reveal = function(){
+          el.__reveal = null;
+          requestAnimationFrame(function(){
+            hi.classList.add('go'); scan.classList.add('go');
+            setTimeout(function(){
+              if (scan.parentNode) scan.parentNode.removeChild(scan);
+              hi.classList.remove('go'); hi.classList.add('kb', 'done');
+              if (DRIFT) DRIFT.observe(el);   /* and only now does it start to move */
+            }, REVEAL_MS + 120);
+          });
+        };
+        if (el.__onScreen) el.__reveal();     /* already arrived while loading */
+        else if (SHOW) SHOW.observe(el);
+        else el.__reveal();                   /* no observer: just show it */
       };
       img.onerror = function(){       /* the placeholder stays: better than an empty slot */
         el.classList.remove('lq');
@@ -3378,6 +3392,19 @@ section:not(.hero):not(.mark-sec):not(.rule-sec):not(.scale) h2{
        pushing behind the fold is GPU spent on nothing anybody is looking at —
        and on a phone it is battery. */
     var HAS_IO = 'IntersectionObserver' in window;
+    var REVEAL_MS = 1400;      /* slow enough to be read as an event, not a flicker */
+
+    /* The second observer: it fires when the slot is genuinely on screen —
+       a tenth of the viewport in from each edge, so a slot that is merely
+       clipping the boundary does not count as arrived. */
+    var SHOW = HAS_IO ? new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if (!e.isIntersecting) return;
+        SHOW.unobserve(e.target);
+        e.target.__onScreen = true;
+        if (e.target.__reveal) e.target.__reveal();
+      });
+    }, { rootMargin: '-10% 0px -10% 0px' }) : null;
     var DRIFT = HAS_IO ? new IntersectionObserver(function(es){
       es.forEach(function(e){
         var hi = e.target.querySelector('.ph-hi');
